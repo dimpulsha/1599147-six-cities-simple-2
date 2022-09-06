@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов (простой)»
 
 * Студент: [Dmitry Pulsha](https://up.htmlacademy.ru/nodejs-api/2/user/1599147).
-* Наставник: `Неизвестно`.
+* Наставник: [Михаил Кислый](https://up.htmlacademy.ru/nodejs-api/2/user/1118577).
 
 ---
 
