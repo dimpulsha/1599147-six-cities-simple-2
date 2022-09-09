@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 import { CliCommandInterface } from '../cli/cli-command.interface.js';
 
 type ParsedCommand = {
