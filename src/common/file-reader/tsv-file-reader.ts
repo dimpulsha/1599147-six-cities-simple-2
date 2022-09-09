@@ -17,7 +17,7 @@ export class TSVFileReader implements FileReaderInterface  {
       return [];
     }
 
-    const data= this.rawData.split('\n')
+    return this.rawData.split('\n')
       .filter((row) => row.trim() !== '')
       .map((line) => line.split('##'))
       .map(([offerTitle, offerDescription, publicationDate, cityName, cityLatitude, cityLongitude, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, userName, email, avatarImg, isProUser, commentsCount, offerLatitude, offerLongitude]) => ({
@@ -39,10 +39,6 @@ export class TSVFileReader implements FileReaderInterface  {
         commentsCount: parseInt(commentsCount, 10),
         offerLocation: {latitude: parseFloat(offerLatitude),longitude:parseFloat(offerLongitude) },
       }));
-
-
-    console.log(data[1].features);
-    return data;
 
   }
 

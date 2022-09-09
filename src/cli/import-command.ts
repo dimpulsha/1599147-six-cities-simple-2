@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { CliCommandInterface } from './cli-command.interface.js';
 import { TSVFileReader } from '../common/file-reader/tsv-file-reader.js';
 
@@ -16,7 +17,7 @@ export default class VersionCommand implements CliCommandInterface{
         throw err;
       }
 
-      console.log(`Не удалось импортировать данные: «${err.message}»`);
+      console.log(chalk.hex('#FFA500')(` Не удалось импортировать данные: « ${err.message}»`));
     }
   }
 }
