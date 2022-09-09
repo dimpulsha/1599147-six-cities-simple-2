@@ -5,7 +5,7 @@ import { Feature } from './feature.type.js';
 import { User } from './user.type.js';
 
 export type Offer = {
-  offerName: string;
+  offerTitle: string;
   offerDescription: string;
   publicationDate: string;
   city: City;
