@@ -7,7 +7,7 @@ import { User } from './user.type.js';
 export type Offer = {
   offerTitle: string;
   offerDescription: string;
-  publicationDate: string;
+  publicationDate: Date;
   city: City;
   previewImg: string;
   offerImg: string[];

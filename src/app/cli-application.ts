@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { CliCommandInterface } from '../cli/cli-command.interface.js';
 
 type ParsedCommand = {
@@ -28,7 +29,6 @@ export default class CLIApplication {
     this.commands = commandList.reduce((acc, Command) => {
       const cliCommand = Command;
       acc[cliCommand.name] = cliCommand;
-      console.log(acc);
       return acc;
     }, this.commands);
   }
