@@ -20,7 +20,8 @@ export class TSVFileReader implements FileReaderInterface  {
     return this.rawData.split('\n')
       .filter((row) => row.trim() !== '')
       .map((line) => line.split('##'))
-      .map(([offerTitle, offerDescription, publicationDate, cityName, cityLatitude, cityLongitude, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, userName, email, avatarImg, isProUser, commentsCount, offerLatitude, offerLongitude]) => ({
+      .map(([offerId, offerTitle, offerDescription, publicationDate, cityName, cityLatitude, cityLongitude, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, userId, userName, email, avatarImg, isProUser, commentsCount, offerLatitude, offerLongitude]) => ({
+        offerId: parseInt(offerId, 10),
         offerTitle,
         offerDescription,
         publicationDate: new Date(publicationDate),
@@ -35,7 +36,7 @@ export class TSVFileReader implements FileReaderInterface  {
         guestsCount: parseInt(guestsCount, 10),
         price: parseFloat(price),
         features: features.split(';').map((name) => ({ name })),
-        owner: {userName, email, avatarImg, isProUser:isProUser === 'true' },
+        owner: {userId: parseInt(userId, 10), userName, email, avatarImg, isProUser:isProUser === 'true' },
         commentsCount: parseInt(commentsCount, 10),
         offerLocation: {latitude: parseFloat(offerLatitude),longitude:parseFloat(offerLongitude) },
       }));
