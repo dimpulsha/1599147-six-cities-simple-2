@@ -1,6 +1,5 @@
 {
   "api": {
-      "offerId": 1,
      "offerTitle": [
       "Offer-1 Beautiful & luxurious studio at great location",
       "Offer-2 Beautiful & luxurious studio at great location",
@@ -22,7 +21,6 @@
       "Offer-7 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
       "Offer-8 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam"
      ],
-  "publicationDate": [],
  "city":[
   {
     "name":"Paris",
@@ -72,16 +70,12 @@
     "offer9-img1.img"
   ],
   "isPremium": true,
-  "rating": 1,
   "offerType": [
     "apartment",
     "house",
     "room",
     "hotel"
   ],
-  "roomsCount": 1,
-  "guestsCount":1,
-  "price": 1,
   "features": [
     "Breakfast",
     "Air conditioning",
@@ -91,58 +85,33 @@
     "Towels",
     "Fridge"
   ],
-  "owner": [
-    {
-      "userId": 1,
-      "userName": "Alice",
-      "email": "alice@local",
-      "avatarImg": "alice.img",
-      "isProUser": true
-    },
-      {
-      "userId": 2,
-      "userName": "Bob",
-      "email": "Bob@local",
-      "avatarImg": "Bob.img",
-      "isProUser": false
-    },
-      {
-      "userId": 3,
-      "userName": "Cat",
-      "email": "Cat@local",
-      "avatarImg": "Cat.img",
-      "isProUser": true
-    },
-      {
-      "userId": 4,
-      "userName": "Peter",
-      "email": "Peter@local",
-      "avatarImg": "Peter.img",
-      "isProUser": false
-    },
-      {
-      "userId": 5,
-      "userName": "John",
-      "email": "John@local",
-      "avatarImg": "John.img",
-      "isProUser": false
-    },
-      {
-      "userId": 6,
-      "userName": "Jane",
-      "email": "Jane@local",
-      "avatarImg": "Jane.img",
-      "isProUser": true
-    },
-      {
-      "userId": 7,
-      "userName": "Mila",
-      "email": "Mila@local",
-      "avatarImg": "Mila.img",
-      "isProUser": false
-    }
+  "userName": [
+    "Alice",
+    "Bob",
+    "Cat",
+    "Peter",
+    "John",
+    "Jane",
+    "Mila"
   ],
-  "commentsCount": 99,
+  "userEmail":[
+    "alice@local",
+    "Bob@local",
+    "Cat@local",
+    "Peter@local",
+    "John@local",
+    "Jane@local",
+    "Mila@local"
+  ],
+  "userAvatar":[
+    "alice.img",
+    "Bob.img",
+    "Cat.img",
+    "Peter.img",
+    "John.img",
+    "Jane.img",
+    "Mila.img"
+  ],
   "offerLocation": [
     {
       "latitude": "48.85661",
