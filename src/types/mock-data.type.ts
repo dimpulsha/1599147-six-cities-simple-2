@@ -1,7 +1,7 @@
 import { City } from './city.type.js';
 import { Location } from './location.type';
 
-type MockUser = {
+export type MockUser = {
   userName: string;
   email: string;
   avatarImg: string;
