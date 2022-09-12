@@ -54,8 +54,8 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
     const features = getRandomItems(this.mockData.features).join(';');
     const owner = this.createUserMock(getRandomItem(this.mockData.owner));
-    const offerLatitude = generateRandomValue(cityData.latitude - 0.00300, cityData.latitude + 0.00300, 6);
-    const offerLongitude = generateRandomValue(cityData.longitude - 0.00300, cityData.longitude + 0.00300, 6);
+    const offerLatitude = generateRandomValue(cityData.latitude - 0.00300, cityData.latitude + 0.00300, 6).toString();
+    const offerLongitude = generateRandomValue(cityData.longitude - 0.00300, cityData.longitude + 0.00300, 6).toString();
 
     // todo - заменить разделитель
     return [offerId, offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, owner, offerLatitude, offerLongitude].join('##');
