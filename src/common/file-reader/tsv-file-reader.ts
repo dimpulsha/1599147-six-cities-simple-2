@@ -31,7 +31,7 @@ export class TSVFileReader implements FileReaderInterface  {
         // offerImg,
         isPremium: isPremium === 'true',
         rating: parseFloat(rating),
-        offerType: RoomType[offerType as 'apartment' | 'house' | 'room' | 'hotel'],
+        offerType: RoomType[offerType as 'Apartment' | 'House' | 'Room' | 'Hotel'],
         roomsCount: parseInt(roomsCount, 10),
         guestsCount: parseInt(guestsCount, 10),
         price: parseFloat(price),

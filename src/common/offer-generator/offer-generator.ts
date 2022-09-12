@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
-import { MockOffer } from '../../types/mock-data.type';
-import { MockUser } from '../../types/mock-data.type';
-import { City } from '../../types/city.type';
-import { RoomType } from '../../types/room-type.enum';
+import { MockOffer } from '../../types/mock-data.type.js';
+import { MockUser } from '../../types/mock-data.type.js';
+import { City } from '../../types/city.type.js';
+import { RoomType } from '../../types/room-type.enum.js';
 import { generateRandomValue, getRandomItems, getRandomItem, randomBoolean } from '../../utils/random.js';
-import { OfferGeneratorInterface } from './offer-generator.interface';
+import { OfferGeneratorInterface } from './offer-generator.interface.js';
 
 const MIN_ROOMS = 1;
 const MAX_ROOMS = 8;
@@ -48,17 +48,18 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const offerImg = getRandomItems<string>(this.mockData.offerImg).join(';');
     const isPremium = randomBoolean().toString();
     const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1);
-    const offerType = getRandomItem([RoomType.apartment, RoomType.hotel, RoomType.house, RoomType.room]);
+    const offerType = getRandomItem([RoomType.Apartment, RoomType.Hotel, RoomType.House, RoomType.Room]);
     const roomsCount = generateRandomValue(MIN_ROOMS, MAX_ROOMS);
     const guestsCount = generateRandomValue(MIN_GUESTS, MAX_GUESTS);
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
     const features = getRandomItems(this.mockData.features).join(';');
     const owner = this.createUserMock(getRandomItem(this.mockData.owner));
+    const commentsCount = generateRandomValue(1, 300).toString();
     const offerLatitude = generateRandomValue(cityData.latitude - 0.00300, cityData.latitude + 0.00300, 6).toString();
     const offerLongitude = generateRandomValue(cityData.longitude - 0.00300, cityData.longitude + 0.00300, 6).toString();
 
     // todo - заменить разделитель
-    return [offerId, offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, owner, offerLatitude, offerLongitude].join('##');
+    return [offerId, offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, owner, commentsCount, offerLatitude, offerLongitude].join('##');
   }
 
 }
