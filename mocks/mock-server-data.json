@@ -84,33 +84,43 @@
     "Washer",
     "Towels",
     "Fridge"
-  ],
-  "userName": [
-    "Alice",
-    "Bob",
-    "Cat",
-    "Peter",
-    "John",
-    "Jane",
-    "Mila"
-  ],
-  "userEmail":[
-    "alice@local",
-    "Bob@local",
-    "Cat@local",
-    "Peter@local",
-    "John@local",
-    "Jane@local",
-    "Mila@local"
-  ],
-  "userAvatar":[
-    "alice.img",
-    "Bob.img",
-    "Cat.img",
-    "Peter.img",
-    "John.img",
-    "Jane.img",
-    "Mila.img"
+  ],  
+  "owner": [
+    {
+      "userName": "Alice",
+      "email": "alice@local",
+      "avatarImg": "alice.img"
+    },
+      {
+      "userName": "Bob",
+      "email": "Bob@local",
+      "avatarImg": "Bob.img"
+    },
+      {
+      "userName": "Cat",
+      "email": "Cat@local",
+      "avatarImg": "Cat.img"
+    },
+      {
+      "userName": "Peter",
+      "email": "Peter@local",
+      "avatarImg": "Peter.img"
+    },
+      {
+      "userName": "John",
+      "email": "John@local",
+      "avatarImg": "John.img"
+    },
+      {
+      "userName": "Jane",
+      "email": "Jane@local",
+      "avatarImg": "Jane.img"
+    },
+      {
+      "userName": "Mila",
+      "email": "Mila@local",
+      "avatarImg": "Mila.img"
+    }
   ],
   "offerLocation": [
     {
