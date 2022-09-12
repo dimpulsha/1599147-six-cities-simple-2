@@ -69,7 +69,6 @@
     "offer8-img1.img",
     "offer9-img1.img"
   ],
-  "isPremium": true,
   "offerType": [
     "apartment",
     "house",
@@ -84,7 +83,7 @@
     "Washer",
     "Towels",
     "Fridge"
-  ],  
+  ],
   "owner": [
     {
       "userName": "Alice",
