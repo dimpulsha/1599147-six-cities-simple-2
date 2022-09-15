@@ -1,13 +1,8 @@
-// import { readFileSync } from 'fs';
 import EventEmitter from 'events';
 import { createReadStream } from 'fs';
-// import { Offer } from '../../types/offer.type.js';
-// import { RoomType } from '../../types/room-type.enum.js';
 import { FileReaderInterface } from './file-reader.interface.js';
 
 export class TSVFileReader extends EventEmitter implements FileReaderInterface  {
-  // private rawData = '';
-  // constructor(public filename: string) { }
 
   constructor(public filename: string) {
     super();

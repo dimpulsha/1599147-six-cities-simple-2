@@ -1,5 +1,4 @@
 import { City } from './city.type.js';
-import { Location } from './location.type';
 
 export type MockUser = {
   userName: string;
@@ -16,5 +15,4 @@ export type MockOffer = {
   offerType: string[];
   features: string[];
   owner: MockUser[];
-  offerLocation: Location[]
 }

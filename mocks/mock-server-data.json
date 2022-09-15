@@ -120,36 +120,6 @@
       "email": "Mila@local",
       "avatarImg": "Mila.img"
     }
-  ],
-  "offerLocation": [
-    {
-      "latitude": "48.85661",
-      "longitude": "12.351499"
-    },
-    {
-      "latitude": "47.85661",
-      "longitude": "11.351499"
-    },
-    {
-      "latitude": "46.85661",
-      "longitude": "10.351499"
-    },
-    {
-      "latitude": "44.85661",
-      "longitude": "19.351499"
-    },
-    {
-      "latitude": "49.85661",
-      "longitude": "18.351499"
-    },
-    {
-      "latitude": "43.85661",
-      "longitude": "17.351499"
-    },
-    {
-      "latitude": "42.85661",
-      "longitude": "16.351499"
-    }
   ]
   }
 }
