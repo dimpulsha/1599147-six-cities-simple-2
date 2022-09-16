@@ -1,0 +1,125 @@
+{
+  "api": {
+     "offerTitle": [
+      "Offer-1 Beautiful & luxurious studio at great location",
+      "Offer-2 Beautiful & luxurious studio at great location",
+      "Offer-9 Beautiful & luxurious studio at great location",
+      "Offer-3 Beautiful & luxurious studio at great location",
+      "Offer-4 Beautiful & luxurious studio at great location",
+      "Offer-5 Beautiful & luxurious studio at great location",
+      "Offer-6 Beautiful & luxurious studio at great location",
+      "Offer-7 Beautiful & luxurious studio at great location",
+      "Offer-8 Beautiful & luxurious studio at great location"
+     ],
+     "offerDescription": [
+      "Offer-1 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-2 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-3 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-4 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-5 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-7 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+      "Offer-8 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam"
+     ],
+ "city":[
+  {
+    "name":"Paris",
+    "latitude": 48.85661,
+    "longitude": 2.351499
+  },
+  { "name":"Cologne",
+    "latitude": 50.938361,
+    "longitude": 6.959974
+  },
+  { "name":"Brussels",
+    "latitude": 50.846557,
+    "longitude": 4.351697
+  },
+  { "name":"Amsterdam",
+    "latitude": 52.370216,
+    "longitude": 4.895168
+  },
+  { "name":"Hamburg",
+    "latitude": 53.550341,
+    "longitude": 10.000654
+  },
+  { "name":"Dusseldorf",
+    "latitude": 51.225402,
+    "longitude": 6.776314
+  }
+ ],
+  "previewImg": [
+    "offer-1-prew.img",
+    "offer-2-prew.img",
+    "offer-3-prew.img",
+    "offer-4-prew.img",
+    "offer-5-prew.img",
+    "offer-6-prew.img",
+    "offer-7-prew.img",
+    "offer-8-prew.img"
+  ],
+  "offerImg":[
+    "offer1-img1.img",
+    "offer2-img1.img",
+    "offer3-img1.img",
+    "offer4-img1.img",
+    "offer5-img1.img",
+    "offer6-img1.img",
+    "offer7-img1.img",
+    "offer8-img1.img",
+    "offer9-img1.img"
+  ],
+  "offerType": [
+    "apartment",
+    "house",
+    "room",
+    "hotel"
+  ],
+  "features": [
+    "Breakfast",
+    "Air conditioning",
+    "Laptop friendly workspace",
+    "Baby seat",
+    "Washer",
+    "Towels",
+    "Fridge"
+  ],
+  "owner": [
+    {
+      "userName": "Alice",
+      "email": "alice@local",
+      "avatarImg": "alice.img"
+    },
+      {
+      "userName": "Bob",
+      "email": "Bob@local",
+      "avatarImg": "Bob.img"
+    },
+      {
+      "userName": "Cat",
+      "email": "Cat@local",
+      "avatarImg": "Cat.img"
+    },
+      {
+      "userName": "Peter",
+      "email": "Peter@local",
+      "avatarImg": "Peter.img"
+    },
+      {
+      "userName": "John",
+      "email": "John@local",
+      "avatarImg": "John.img"
+    },
+      {
+      "userName": "Jane",
+      "email": "Jane@local",
+      "avatarImg": "Jane.img"
+    },
+      {
+      "userName": "Mila",
+      "email": "Mila@local",
+      "avatarImg": "Mila.img"
+    }
+  ]
+  }
+}
