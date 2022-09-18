@@ -16,9 +16,11 @@
     "clean": "rimraf dist",
     "ts": "ts-node",
     "mock:server": "json-server ./mocks/mock-server-data.json --port 3123",
-    "start:dev": "ts-node ./src/main.ts | pino-pretty -c -l -t SYS:standard "
+    "start:dev": "npm run ts ./src/main.ts | pino-pretty -c -l -t SYS:standard "
   },
   "devDependencies": {
+    "@types/convict": "^6.1.1",
+    "@types/convict-format-with-validator": "^6.0.2",
     "@types/node": "^16.11.26",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
@@ -37,7 +39,10 @@
   },
   "dependencies": {
     "chalk": "^5.0.1",
+    "convict": "^6.2.3",
+    "convict-format-with-validator": "^6.2.0",
     "dayjs": "^1.11.5",
+    "dotenv": "^16.0.2",
     "got": "^12.4.1",
     "pino": "^8.5.0"
   }

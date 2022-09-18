@@ -14,3 +14,5 @@ mocks/test-data.tsv
 /mocks/test-data.tsv
 ./mocks/test-data.tsv
 /_temp/
+.env
+
