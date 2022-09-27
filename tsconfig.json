@@ -29,7 +29,7 @@
   },
   "include": [
     "src/**/*.ts"
-  ],
+, "src/common/logger/logger.service.ts"  ],
   "exclude": [
     "node_modules",
     "**/*.test.ts"

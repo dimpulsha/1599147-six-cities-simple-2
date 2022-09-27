@@ -12,7 +12,6 @@ export const createOffer = (row: string) => {
     city: { name: cityName, latitude: parseFloat(cityLatitude), longitude: parseFloat(cityLongitude) },
     previewImg,
     offerImg: offerImg.split(';'),
-    // offerImg,
     isPremium: isPremium === 'true',
     rating: parseFloat(rating),
     offerType: RoomType[offerType as 'Apartment' | 'House' | 'Room' | 'Hotel'],

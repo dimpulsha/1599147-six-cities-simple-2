@@ -30,14 +30,12 @@ export default class OfferGenerator implements OfferGeneratorInterface {
   }
 
   private createUserMock(user: MockUser): string {
-    // todo - заменить на генерацию уникального ID
     const userId = generateRandomValue(1, 1000000).toString();
     const isProUser = randomBoolean().toString();
     return [userId, user.userName, user.email, user.avatarImg, isProUser].join('##');
   }
 
   public generate(): string {
-    // todo - заменить на генерацию уникального ID
     const offerId = generateRandomValue(1, 1000000).toString();
     const offerTitle = getRandomItem<string>(this.mockData.offerTitle);
     const offerDescription = getRandomItem<string>(this.mockData.offerDescription);
@@ -58,7 +56,6 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const offerLatitude = generateRandomValue(cityData.latitude - 0.00300, cityData.latitude + 0.00300, 6).toString();
     const offerLongitude = generateRandomValue(cityData.longitude - 0.00300, cityData.longitude + 0.00300, 6).toString();
 
-    // todo - заменить разделитель
     return [offerId, offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, owner, commentsCount, offerLatitude, offerLongitude].join('##');
   }
 
