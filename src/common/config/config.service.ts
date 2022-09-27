@@ -1,14 +1,17 @@
 import { config } from 'dotenv';
+import { inject, injectable } from 'inversify';
+import { RESTAppComponent } from '../../types/component.types.js';
 import { ConfigInterface } from './config.interface.js';
 import { LoggerInterface } from '../logger/logger.interface.js';
-import {configSchema, ConfigSchema} from './config.schema.js';
+import { configSchema, ConfigSchema } from './config.schema.js';
 
+@injectable()
 export class ConfigService implements ConfigInterface {
 
   private config: ConfigSchema;
   private logger: LoggerInterface;
 
-  constructor(logger: LoggerInterface) {
+  constructor(@inject(RESTAppComponent.LoggerInterface)  logger: LoggerInterface) {
     this.logger = logger;
 
     const parseConfig = config();
@@ -17,7 +20,6 @@ export class ConfigService implements ConfigInterface {
       throw new Error('Can\'t read .env file. Perhaps the file does not exists.');
     }
 
-    // this.config = <DotenvParseOutput>parseConfig.parsed;
     configSchema.load({});
     configSchema.validate({ allowed: 'strict', output: this.logger.info });
     this.config = configSchema.getProperties();
