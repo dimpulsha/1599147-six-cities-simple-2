@@ -39,7 +39,7 @@ export const configSchema = convict<ConfigSchema>({
   SALT: {
     doc: 'Random value for security',
     format: '*',
-    env: 'REST_SERVICE_LOG_PATH',
+    env: 'REST_SALT',
     default: null
   }
 });
