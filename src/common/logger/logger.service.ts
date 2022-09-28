@@ -8,7 +8,7 @@ export  class LoggerService implements LoggerInterface {
 
   constructor() {
     this.logger = pino({
-      level: 'info'
+      level: 'debug'
     });
   }
 
