@@ -30,9 +30,9 @@ export default class OfferGenerator implements OfferGeneratorInterface {
   }
 
   private createUserMock(user: MockUser): string {
-    const userId = generateRandomValue(1, 1000000).toString();
+    // const userId = generateRandomValue(1, 1000000).toString();
     const isProUser = randomBoolean().toString();
-    return [userId, user.userName, user.email, user.avatarImg, isProUser].join('##');
+    return [user.userName, user.email, user.avatarImg, isProUser].join('##');
   }
 
   public generate(): string {

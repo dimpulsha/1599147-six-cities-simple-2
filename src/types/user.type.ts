@@ -1,8 +1,8 @@
 export type User = {
-  userId: number;
+  // _id?: string;
   userName: string;
   email: string;
-  avatarImg?: string;
+  avatarImg: string;
   password?: string;
   isProUser: boolean;
 }
