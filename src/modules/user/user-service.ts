@@ -18,10 +18,10 @@ export default class UserDBService implements UserDBServiceInterface {
     const user = new UserEntity(userDTO);
     user.setPassword(userDTO.password, salt);
 
-    const methodResult = await this.userModel.create(user);
+    const createResult = await this.userModel.create(user);
     this.logger.info(`User ${user.email} created`);
 
-    return methodResult;
+    return createResult;
 
   }
 
@@ -30,7 +30,7 @@ export default class UserDBService implements UserDBServiceInterface {
   }
 
   public async findByID(id: string): Promise<DocumentType<UserEntity> | null> {
-    return this.userModel.findById(id);
+    return this.userModel.findById(id).exec();
   }
 
   public async findOrCreate(userDTO: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {

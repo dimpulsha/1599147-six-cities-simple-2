@@ -5,4 +5,8 @@ export const RESTAppComponent = {
   DatabaseInterface: Symbol.for('DatabaseInterface'),
   UserDBServiceInterface: Symbol.for('UserDBServiceInterface'),
   UserModel: Symbol.for('UserMosel'),
+  FeatureDBServiceInterface: Symbol.for('FeatureDBServiceInterface'),
+  FeatureModel: Symbol.for('FeatureModel'),
+  OfferDBServiceInterface: Symbol.for('OfferDBServiceInterface'),
+  OfferModel: Symbol.for('OfferModel'),
 } as const;

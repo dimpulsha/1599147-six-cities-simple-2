@@ -22,13 +22,13 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.isProUser = data.isProUser;
   }
 
-  @prop({required: true, minlength: 1, maxlength: 15})
+  @prop({required: true, minlength: 1, maxlength: 15, trim: true})
   public userName!: string;
 
-  @prop({unique: true, required: true, match: /^(.+)@(\\ S+)$/})
+  @prop({unique: true, trim: true, required: true, match: /^(.+)@(\\ S+)$/})
   public email!: string;
 
-  @prop({default: 'default.jpg'})
+  @prop({default: 'default.jpg', trim: true})
   public avatarImg!: string;
 
   @prop({required: true, default: ''})
