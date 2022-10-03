@@ -1,9 +1,7 @@
 import pino, { Logger } from 'pino';
-import {injectable} from 'inversify';
 import { LoggerInterface } from './logger.interface.js';
 
-@injectable()
-export  class LoggerService implements LoggerInterface {
+export class ConsoleLoggerService implements LoggerInterface {
   private logger!: Logger;
 
   constructor() {
@@ -29,4 +27,3 @@ export  class LoggerService implements LoggerInterface {
   }
 
 }
-
