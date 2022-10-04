@@ -19,12 +19,15 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
 
     const createResult = await this.CommentsModel.create(commentsDTO);
     this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created`);
-
     return createResult.populate('ownerId');
   }
 
   public async getByOfferIg(offerId: string): Promise<DocumentType<CommentsEntity>[]> {
-
     return this.CommentsModel.find({ offerId }).populate('ownerId');
+  }
+
+  public async deleteByOfferIg(offerId: string): Promise<number> {
+    const deleteResult = await this.CommentsModel.deleteMany({ offerId }).exec();
+    return deleteResult.deletedCount;
   }
 }
