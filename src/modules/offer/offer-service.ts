@@ -6,6 +6,7 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import CreateOfferDTO from './dto/create-offer.dto.js';
 import { OfferEntity } from './offer.entity.js';
 import { OfferDBServiceInterface } from './offer-service.interface.js';
+import UpdateOfferDTO from './dto/update-offer.dto.js';
 
 
 @injectable()
@@ -28,6 +29,14 @@ export default class OfferDBService implements OfferDBServiceInterface {
 
   public async getList(): Promise<DocumentType<OfferEntity>[]> {
     return await this.offerModel.find().populate(['features', 'ownerId']).exec();
+  }
+
+  public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel.findByIdAndDelete(offerId).exec();
+  }
+
+  public async updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null> {
+    return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
 }
