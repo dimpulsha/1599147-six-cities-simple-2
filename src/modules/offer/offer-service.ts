@@ -22,9 +22,12 @@ export default class OfferDBService implements OfferDBServiceInterface {
     return createResult;
   }
 
-  public getById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findById(offerId).exec();
+  public async getById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    return await this.offerModel.findById(offerId).populate(['features', 'ownerId']).exec();
+  }
 
+  public async getList(): Promise<DocumentType<OfferEntity>[]> {
+    return await this.offerModel.find().populate(['features', 'ownerId']).exec();
   }
 
 }
