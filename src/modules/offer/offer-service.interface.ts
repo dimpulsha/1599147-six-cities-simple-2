@@ -9,5 +9,5 @@ export interface OfferDBServiceInterface {
   getList(): Promise<DocumentType<OfferEntity>[]>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null>;
-  // exist(docId: string): Promise<boolean>
+  incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
 }

@@ -5,6 +5,8 @@ import { LoggerInterface } from '../common/logger/logger.interface.js';
 import { ConfigInterface } from '../common/config/config.interface.js';
 import { MongoDBInterface } from '../common/database-client/mongo-db.interface.js';
 import { getMongoURI } from '../common/database-client/db-uri.js';
+import OfferDBService from '../modules/offer/offer-service.js';
+import CommentsDBService from '../modules/comments/comments-service.js';
 
 @injectable()
 export default class RESTApplication {
@@ -13,6 +15,9 @@ export default class RESTApplication {
     @inject(RESTAppComponent.LoggerInterface) private logger: LoggerInterface,
     @inject(RESTAppComponent.ConfigInterface) private configItem: ConfigInterface,
     @inject(RESTAppComponent.DatabaseInterface) private database: MongoDBInterface,
+    @inject(RESTAppComponent.OfferDBServiceInterface) private offer: OfferDBService,
+    @inject(RESTAppComponent.CommentsDBServiceInterface) private comments: CommentsDBService,
+
   ) { }
 
   public async init() {
@@ -31,7 +36,12 @@ export default class RESTApplication {
 
     this.database.connect(databaseURI);
 
+    const qfferById = await this.offer.getById('633dd658acd5f7a16b463d6d');
+    // const qfferById = await this.offer.getList();
+    console.log(qfferById);
 
+    const result = await this.comments.calcRating('633dd658acd5f7a16b463d6d');
+    console.log(result);
   }
 
 }

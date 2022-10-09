@@ -30,4 +30,17 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
     const deleteResult = await this.CommentsModel.deleteMany({ offerId }).exec();
     return deleteResult.deletedCount;
   }
+
+  public async calcRating(offerId: string) {
+    const rate = this.CommentsModel.aggregate([{ $group: { _id: '$offerId', avgVal: { $avg: '$rate' } } }]).exec();
+    // const rate = this.CommentsModel.aggregate([{ $match: { offerId: '$offerId'} }]).exec();
+
+    // console.log(rate);
+    console.log(offerId);
+    // console.log(rate);
+    // const myAvg = rate.
+    return rate;
+  }
+
 }
+

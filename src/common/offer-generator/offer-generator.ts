@@ -9,9 +9,6 @@ import { OfferGeneratorInterface } from './offer-generator.interface.js';
 const MIN_ROOMS = 1;
 const MAX_ROOMS = 8;
 
-const MIN_RATING = 0;
-const MAX_RATING = 5;
-
 const MIN_GUESTS = 1;
 const MAX_GUESTS = 10;
 
@@ -43,18 +40,18 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const previewImg = getRandomItem<string>(this.mockData.previewImg);
     const offerImg = getRandomItems<string>(this.mockData.offerImg).join(';');
     const isPremium = randomBoolean().toString();
-    const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1);
+    // const rating = generateRandomValue(MIN_RATING, MAX_RATING, 1);
     const offerType = getRandomItem([RoomType.apartment, RoomType.hotel, RoomType.house, RoomType.room]);
     const roomsCount = generateRandomValue(MIN_ROOMS, MAX_ROOMS);
     const guestsCount = generateRandomValue(MIN_GUESTS, MAX_GUESTS);
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
     const features = getRandomItems(this.mockData.features).join(';');
     const owner = this.createUserMock(getRandomItem(this.mockData.owner));
-    const commentsCount = generateRandomValue(1, 300).toString();
+    // const commentsCount = generateRandomValue(1, 300).toString();
     const offerLatitude = generateRandomValue(cityData.latitude - 0.00300, cityData.latitude + 0.00300, 6).toString();
     const offerLongitude = generateRandomValue(cityData.longitude - 0.00300, cityData.longitude + 0.00300, 6).toString();
 
-    return [ offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, rating, offerType, roomsCount, guestsCount, price, features, owner, commentsCount, offerLatitude, offerLongitude].join('##');
+    return [ offerTitle, offerDescription, publicationDate, city, previewImg, offerImg, isPremium, offerType, roomsCount, guestsCount, price, features, owner, offerLatitude, offerLongitude].join('##');
   }
 
 }

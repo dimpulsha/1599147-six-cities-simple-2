@@ -31,11 +31,11 @@ RESTAppContainer.bind<MongoDBInterface>(RESTAppComponent.DatabaseInterface).to(M
 RESTAppContainer.bind<UserDBServiceInterface>(RESTAppComponent.UserDBServiceInterface).to(UserDBService);
 RESTAppContainer.bind<types.ModelType<UserEntity>>(RESTAppComponent.UserModel).toConstantValue(UserModel);
 RESTAppContainer.bind<FeatureDBServiceInterface>(RESTAppComponent.FeatureDBServiceInterface).to(FeatureDBService);
-RESTAppContainer.bind<types.ModelType<FeatureEntity>>(RESTAppComponent.UserModel).toConstantValue(FeatureModel);
+RESTAppContainer.bind<types.ModelType<FeatureEntity>>(RESTAppComponent.FeatureModel).toConstantValue(FeatureModel);
 RESTAppContainer.bind<OfferDBServiceInterface>(RESTAppComponent.OfferDBServiceInterface).to(OfferDBService);
-RESTAppContainer.bind<types.ModelType<OfferEntity>>(RESTAppComponent.UserModel).toConstantValue(OfferModel);
+RESTAppContainer.bind<types.ModelType<OfferEntity>>(RESTAppComponent.OfferModel).toConstantValue(OfferModel);
 RESTAppContainer.bind<CommentsDBServiceInterface>(RESTAppComponent.CommentsDBServiceInterface).to(CommentsDBService);
-RESTAppContainer.bind<types.ModelType<CommentsEntity>>(RESTAppComponent.UserModel).toConstantValue(CommentsModel);
+RESTAppContainer.bind<types.ModelType<CommentsEntity>>(RESTAppComponent.CommentsModel).toConstantValue(CommentsModel);
 
 const RESTApp = RESTAppContainer.get<RESTApplication>(RESTAppComponent.Application);
 
