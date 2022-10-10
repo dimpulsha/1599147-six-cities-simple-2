@@ -31,7 +31,7 @@ export default class OfferDBService implements OfferDBServiceInterface {
 
   public async getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const offerLimit = count ?? DEFAULT_OFFER_COUNT;
-    return await this.offerModel.find({}, 'offerTitle city offerType publicationDate price isPremium previewImg rating commentsCount').sort({publicationDate: SortKind.Down}).limit(offerLimit).exec();
+    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).limit(offerLimit).exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
@@ -39,11 +39,18 @@ export default class OfferDBService implements OfferDBServiceInterface {
   }
 
   public async updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
+    return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, { new: true }).exec();
   }
 
   public async incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndUpdate(offerId, {'$inc': {commentsCount: 1,}}).exec();
+    return this.offerModel.findByIdAndUpdate(offerId, { '$inc': { commentsCount: 1, } }).exec();
+  }
+
+  public async calcRate(offerId: string): Promise<DocumentType<OfferEntity>[] | null> {
+    const result = await this.offerModel.aggregate([{ $match: { _id: '$offerId' } }]).exec();
+    console.log(offerId);
+
+    return result;
   }
 
   public async rateUpdate(offerId: string, rate: number): Promise<DocumentType<OfferEntity> | null> {

@@ -5,7 +5,9 @@ import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { OfferDBServiceInterface } from './offer-service.interface.js';
-import {StatusCodes} from 'http-status-codes';
+import { StatusCodes } from 'http-status-codes';
+import OfferListResponse from './response/offer-list.response.js';
+import { fillDTO } from '../../utils/common-utils.js';
 
  @injectable()
 export default class OfferController extends Controller {
@@ -23,10 +25,12 @@ export default class OfferController extends Controller {
 
   public async index(_req: Request, res: Response): Promise<void> {
     const offer = await this.offerService.getList();
-    this.send(res, StatusCodes.OK, offer);
+    const offerResponse = fillDTO(OfferListResponse, offer);
+    this.send(res, StatusCodes.OK, offerResponse);
   }
 
   public create(_req: Request, _res: Response): void {
-    // Код обработчика
+
+    // this.send(res, StatusCodes.OK, categoryResponse);
   }
 }
