@@ -9,6 +9,7 @@ import { OfferEntity } from './offer.entity.js';
 import { OfferDBServiceInterface } from './offer-service.interface.js';
 import UpdateOfferDTO from './dto/update-offer.dto.js';
 import { SortKind } from '../../types/sort-kind.enum.js';
+import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
 
 
 @injectable()
@@ -16,7 +17,8 @@ export default class OfferDBService implements OfferDBServiceInterface {
 
   constructor(
     @inject(RESTAppComponent.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
-    @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface
+    @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
+    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly comments: CommentsDBServiceInterface,
   ) { }
 
   public async create(offerDTO: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
@@ -35,19 +37,25 @@ export default class OfferDBService implements OfferDBServiceInterface {
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndDelete(offerId).exec();
+    const result = await this.offerModel.findByIdAndDelete(offerId).exec();
+    if (result) {
+      this.comments.deleteByOfferId(offerId);
+      this.logger.info(`Delete offer ${offerId}`);
+    }
+    return result;
   }
 
   public async updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null> {
+    this.logger.info(`Update offer ${offerId}`);
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
-  public async incCommentsCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndUpdate(offerId, {'$inc': {commentsCount: 1,}}).exec();
-  }
-
-  public async rateUpdate(offerId: string, rate: number): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findByIdAndUpdate(offerId, { rating: rate }).exec();
+  public async commentInfoUpdate(offerId: string): Promise<void> {
+    const offerComments = await this.comments.getByOfferId(offerId);
+    const commentsCount = offerComments.length;
+    const avgSumm = offerComments.map(({ rate }) => rate).reduce((avg, rate) => avg + rate / commentsCount, 0);
+    const avgRating = Math.round(avgSumm * 10) / 10;
+    await this.offerModel.findByIdAndUpdate(offerId, [{ $set: { rating: avgRating } }, { $set: { commentsCount: commentsCount } }]);
   }
 
 }
