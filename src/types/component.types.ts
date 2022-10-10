@@ -11,4 +11,5 @@ export const RESTAppComponent = {
   OfferModel: Symbol.for('OfferModel'),
   CommentsDBServiceInterface: Symbol.for('CommentsDBServiceInterface'),
   CommentsModel: Symbol.for('CommentsModel'),
+  OfferController: Symbol.for('OfferController'),
 } as const;
