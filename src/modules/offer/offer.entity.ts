@@ -4,7 +4,7 @@ import { Location } from '../../types/location.type.js';
 import { RoomType } from '../../types/room-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 import { FeatureEntity } from '../features/feature.entity.js';
-import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount } from '../../app.config';
+import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount } from '../../app.config.js';
 
 const { prop, modelOptions } = typegoose;
 

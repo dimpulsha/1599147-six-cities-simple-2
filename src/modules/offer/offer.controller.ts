@@ -9,7 +9,7 @@ import { StatusCodes } from 'http-status-codes';
 import OfferListResponse from './response/offer-list.response.js';
 import { fillDTO } from '../../utils/common-utils.js';
 
- @injectable()
+@injectable()
 export default class OfferController extends Controller {
   constructor(
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
@@ -21,6 +21,8 @@ export default class OfferController extends Controller {
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
     this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem});
   }
 
   public async index(_req: Request, res: Response): Promise<void> {
@@ -30,7 +32,20 @@ export default class OfferController extends Controller {
   }
 
   public create(_req: Request, _res: Response): void {
+    const createResponse = ' offer.create Response';
+    this.logger.info('call offer.create method');
+    this.send(_res, StatusCodes.OK, createResponse);
+  }
 
-    // this.send(res, StatusCodes.OK, categoryResponse);
+  public getItem(_req: Request, _res: Response): void {
+    const getItemResponse = ' offer.getItem Response';
+    this.logger.info('call offer.getItem method');
+    this.send(_res, StatusCodes.OK, getItemResponse);
+  }
+
+  public deleteItem(_req: Request, _res: Response): void {
+    const getItemResponse = ' offer.deleteItem Response';
+    this.logger.info('call offer.deleteItem method');
+    this.send(_res, StatusCodes.OK, getItemResponse);
   }
 }
