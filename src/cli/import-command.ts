@@ -23,7 +23,7 @@ const DEFAULT_DB_PORT = 27017;
 const DEFAULT_USER_PASSWORD = 'blablabla';
 
 
-export default class VersionCommand implements CliCommandInterface{
+export default class ImportCommand implements CliCommandInterface{
   public readonly name = '--import';
 
   private userService!: UserDBServiceInterface;
