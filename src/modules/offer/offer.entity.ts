@@ -4,6 +4,7 @@ import { Location } from '../../types/location.type.js';
 import { RoomType } from '../../types/room-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 import { FeatureEntity } from '../features/feature.entity.js';
+import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount } from '../../app.config';
 
 const { prop, modelOptions } = typegoose;
 
@@ -16,10 +17,10 @@ export interface OfferEntity extends defaultClasses.Base { }
 })
 
 export class OfferEntity extends defaultClasses.TimeStamps {
-  @prop({required: true, trim: true, minlength: 10, maxlength: 100,})
+  @prop({required: true, trim: true, minlength: OfferTitle.Min, maxlength: OfferTitle.Max,})
   public offerTitle!: string;
 
-  @prop({required: true, minlength: 20, maxlength: 1024,})
+  @prop({required: true, minlength: OfferDescription.Min, maxlength: OfferDescription.Max,})
   public offerDescription!: string;
 
   @prop({required: true})
@@ -46,13 +47,13 @@ export class OfferEntity extends defaultClasses.TimeStamps {
     enum: RoomType})
   public offerType!: RoomType;
 
-  @prop({required: true, min: 1, max: 8})
+  @prop({required: true, min: RoomsCount.Min, max: RoomsCount.Max})
   public roomsCount!: number;
 
-  @prop({required: true, min: 1, max: 10})
+  @prop({required: true, min: GuestsCount.Min, max: GuestsCount.Max})
   public guestsCount!: number;
 
-  @prop({required: true, min: 100, max:100000})
+  @prop({required: true, min: Price.Min, max:Price.Max})
   public price!: number;
 
   @prop({

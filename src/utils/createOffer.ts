@@ -12,14 +12,12 @@ export const createOffer = (row: string) => {
     previewImg,
     offerImg: offerImg.split(';'),
     isPremium: isPremium === 'true',
-    // rating: parseFloat(rating),
     offerType: RoomType[offerType as 'apartment' | 'house' | 'room' | 'hotel'],
     roomsCount: parseInt(roomsCount, 10),
     guestsCount: parseInt(guestsCount, 10),
     price: parseFloat(price),
     features: features.split(';').map((name) => ({ name })),
     owner: { userName, email, avatarImg, isProUser: isProUser === 'true' },
-    // commentsCount: parseInt(commentsCount, 10),
     offerLocation: { latitude: parseFloat(offerLatitude), longitude: parseFloat(offerLongitude) },
   } as Offer;
 };

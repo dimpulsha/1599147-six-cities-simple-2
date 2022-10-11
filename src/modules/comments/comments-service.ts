@@ -6,40 +6,35 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import CreateCommentDTO from './dto/create-comments.dto.js';
 import { CommentsEntity } from './comments.entity.js';
 import { CommentsDBServiceInterface } from './comments-service.interface.js';
+import { OfferDBServiceInterface } from '../offer/offer-service.interface.js';
 
 @injectable()
 export default class CommentsDBService implements CommentsDBServiceInterface {
 
   constructor(
     @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
-    @inject(RESTAppComponent.CommentsModel) private readonly CommentsModel: ModelType<CommentsEntity>
+    @inject(RESTAppComponent.CommentsModel) private readonly commentsModel: ModelType<CommentsEntity>,
+    @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offer: OfferDBServiceInterface
   ) { }
 
   public async create(commentsDTO: CreateCommentDTO): Promise<DocumentType<CommentsEntity>> {
 
-    const createResult = await this.CommentsModel.create(commentsDTO);
+    const createResult = await this.commentsModel.create(commentsDTO);
     this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created`);
+    this.offer.commentInfoUpdate(commentsDTO.offerId);
     return createResult.populate('ownerId');
   }
 
-  public async getByOfferIg(offerId: string): Promise<DocumentType<CommentsEntity>[]> {
-    return this.CommentsModel.find({ offerId }).populate('ownerId');
+  public async getByOfferId(offerId: string): Promise<DocumentType<CommentsEntity>[]> {
+    const getByOfferResult = await this.commentsModel.find({ offerId }).populate('ownerId');
+    this.logger.debug(`Present comments for offer ${offerId}`);
+    return getByOfferResult;
   }
 
-  public async deleteByOfferIg(offerId: string): Promise<number> {
-    const deleteResult = await this.CommentsModel.deleteMany({ offerId }).exec();
+  public async deleteByOfferId(offerId: string): Promise<number> {
+    const deleteResult = await this.commentsModel.deleteMany({ offerId }).exec();
+    this.logger.info(`Delete ${deleteResult.deletedCount} comments for offer ${offerId}`);
     return deleteResult.deletedCount;
-  }
-
-  public async calcRating(offerId: string) {
-    const rate = this.CommentsModel.aggregate([{ $group: { _id: '$offerId', avgVal: { $avg: '$rate' } } }]).exec();
-    // const rate = this.CommentsModel.aggregate([{ $match: { offerId: '$offerId'} }]).exec();
-
-    // console.log(rate);
-    console.log(offerId);
-    // console.log(rate);
-    // const myAvg = rate.
-    return rate;
   }
 
 }
