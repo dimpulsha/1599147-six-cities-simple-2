@@ -50,6 +50,7 @@ export default class OfferDBService implements OfferDBServiceInterface {
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
+  // todo - в обновление комментариев
   public async commentInfoUpdate(offerId: string): Promise<void> {
     const offerComments = await this.comments.getByOfferId(offerId);
     const commentsCount = offerComments.length;

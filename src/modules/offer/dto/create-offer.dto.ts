@@ -6,6 +6,7 @@ import { Feature } from '../../../types/feature.type.js';
 export default class CreateOfferDTO {
   public offerTitle!: string;
   public offerDescription!: string;
+  public publicationDate!: Date;
   public city!: City;
   public previewImg!: string;
   public offerImg!: string[];

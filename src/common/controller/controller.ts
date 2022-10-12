@@ -41,20 +41,4 @@ export abstract class Controller implements ControllerInterface {
   public ok<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.OK, data);
   }
-
-  public requestError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.BAD_REQUEST, data);
-  }
-
-  public authError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.FORBIDDEN, data);
-  }
-
-  public notFound<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NOT_FOUND, data);
-  }
-
-  public serverError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.INTERNAL_SERVER_ERROR, data);
-  }
 }

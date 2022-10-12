@@ -4,7 +4,6 @@ import { RoomType } from '../../../types/room-type.enum.js';
 import { Feature } from '../../../types/feature.type.js';
 
 export default class UpdateOfferDTO {
-  public offerId!: string;
   public offerTitle?: string;
   public offerDescription?: string;
   public city?: City;
@@ -16,6 +15,5 @@ export default class UpdateOfferDTO {
   public guestsCount?: number;
   public price?: number;
   public features?: Feature[];
-  public ownerId!: string;
   public offerLocation?: Location;
 }
