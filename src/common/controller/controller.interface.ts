@@ -11,4 +11,5 @@ export interface ControllerInterface {
   requestError<T>(res: Response, data: T): void;
   authError<T>(res: Response, data: T): void;
   notFound<T>(res: Response, data: T): void;
+  serverError<T>(res: Response, data: T): void
 }

@@ -8,7 +8,8 @@ import { MongoDBInterface } from '../common/database-client/mongo-db.interface.j
 import { getMongoURI } from '../common/database-client/db-uri.js';
 // import OfferDBService from '../modules/offer/offer-service.js';
 // import CommentsDBService from '../modules/comments/comments-service.js';
-import {ControllerInterface} from '../common/controller/controller.interface.js';
+import { ControllerInterface } from '../common/controller/controller.interface.js';
+import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
 @injectable()
 export default class RESTApplication {
@@ -20,7 +21,10 @@ export default class RESTApplication {
     @inject(RESTAppComponent.DatabaseInterface) private database: MongoDBInterface,
     // @inject(RESTAppComponent.OfferDBServiceInterface) private offer: OfferDBService,
     // @inject(RESTAppComponent.CommentsDBServiceInterface) private comments: CommentsDBService,
-    @inject(RESTAppComponent.OfferController) private offerController: ControllerInterface
+    @inject(RESTAppComponent.OfferController) private offerController: ControllerInterface,
+    @inject(RESTAppComponent.UserController) private userController: ControllerInterface,
+    @inject(RESTAppComponent.CommentsController) private commentsController: ControllerInterface,
+    @inject(RESTAppComponent.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
 
   ) {
     this.expressInstance = express();
@@ -28,6 +32,16 @@ export default class RESTApplication {
 
   public initRoutes() {
     this.expressInstance.use('/offer', this.offerController.router);
+    this.expressInstance.use('/user', this.userController.router);
+    this.expressInstance.use('/comments', this.commentsController.router);
+  }
+
+  public initMiddleware() {
+    this.expressInstance.use(express.json());
+  }
+
+  public initExceptionFilters() {
+    this.expressInstance.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
   }
 
   public async init() {
@@ -46,20 +60,11 @@ export default class RESTApplication {
 
     this.database.connect(databaseURI);
 
+    this.initMiddleware();
     this.initRoutes();
+    this.initExceptionFilters();
     this.expressInstance.listen(this.configItem.getItem('PORT'));
     this.logger.info(`Server started on http://localhost:${this.configItem.getItem('PORT')}`);
-
-    // const qfferById = await this.offer.calcRate('633dd658acd5f7a16b463d6d');
-    // // const qfferById = await this.offer.getList();
-    // console.log(qfferById);
-
-    // const qfferById2 = await this.offer.getById('633dd658acd5f7a16b463d6d');
-    // // const qfferById = await this.offer.getList();
-    // console.log(qfferById2);
-
-    // const result = await this.comments.calcRating('633dd658acd5f7a16b463d6d');
-    // console.log(result);
   }
 
 }

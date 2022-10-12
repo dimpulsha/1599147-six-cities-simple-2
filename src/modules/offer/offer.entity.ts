@@ -23,8 +23,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true, minlength: OfferDescription.Min, maxlength: OfferDescription.Max,})
   public offerDescription!: string;
 
-  @prop({required: true})
-  public publicationDate!: Date;
+  // @prop({required: true})
+  // public publicationDate!: Date;
 
   @prop({required: true})
   public city!: City;

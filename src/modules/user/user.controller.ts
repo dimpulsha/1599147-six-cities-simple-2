@@ -8,42 +8,62 @@ import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../utils/common-utils.js';
 import { UserDBServiceInterface } from './user-service.interface.js';
 import UserResponse from './response/user.response.js';
+import CreateUserDto from './dto/create-user.dto.js';
+import LoginUserDto from './dto/login-user.dto.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
+import HttpError from '../../common/errors/http.errors.js';
 
 @injectable()
 export default class UserController extends Controller {
 
   constructor(
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
-    @inject(RESTAppComponent.UserDBServiceInterface) private readonly userService: UserDBServiceInterface
+    @inject(RESTAppComponent.UserDBServiceInterface) private readonly userService: UserDBServiceInterface,
+    @inject(RESTAppComponent.ConfigInterface) private readonly configService: ConfigInterface
 
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
-    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.check });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.userLogin });
-
-
+    this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.userLogin });
   }
 
-  public async create(_req: Request, _res: Response): Promise<void> {
-    const createResponse = ' user.user.create Response';
-    this.logger.info('call user.create method');
-    this.send(_res, StatusCodes.OK, createResponse);
+  public async create(
+    { body }: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>, res: Response): Promise<void> {
+    this.logger.debug(JSON.stringify(body));
+    const existUser = await this.userService.findByMail(body.email);
+
+    if (existUser) {
+      throw new HttpError( StatusCodes.CONFLICT, `User with email «${body.email}» exists.`, 'UserController' );
+    }
+
+    const result = await this.userService.create(body, this.configService.getItem('SALT'));
+    this.created(res, fillDTO(UserResponse, result));
   }
 
   public async check(_req: Request, _res: Response): Promise<void> {
-    const checkResponse = ' user.user.check Response';
-    this.logger.info('call user.check method');
-    this.send(_res, StatusCodes.OK, checkResponse);
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented.',
+      'UserController',
+    );
   }
 
-  public async userLogin(_req: Request, _res: Response): Promise<void> {
-    const loginResponse = ' user.userLogin Response';
-    this.logger.info('call user.userLogin method');
-    this.send(_res, StatusCodes.OK, loginResponse);
-  }
 
+  public async userLogin({ body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>, res: Response): Promise<void> {
+    this.logger.debug(JSON.stringify(body));
+    const existUser = await this.userService.findByMail(body.email);
+
+    if (!existUser) {
+      throw new HttpError( StatusCodes.CONFLICT, `Incorrect email «${body.email}» or password.`, 'UserController' );
+    }
+
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented',
+      'UserController',
+    );
+  }
 
 }
-

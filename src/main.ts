@@ -23,6 +23,10 @@ import CommentsDBService from './modules/comments/comments-service.js';
 import RESTApplication from './app/rest-application.js';
 import { ControllerInterface } from './common/controller/controller.interface.js';
 import OfferController from './modules/offer/offer.controller.js';
+import UserController from './modules/user/user.controller.js';
+import CommentsController from './modules/comments/comments.controller.js';
+import ExceptionFilter from './common/errors/exception-filter.js';
+import { ExceptionFilterInterface } from './common/errors/exception-filter.interface.js';
 
 
 const RESTAppContainer = new Container;
@@ -39,6 +43,10 @@ RESTAppContainer.bind<types.ModelType<OfferEntity>>(RESTAppComponent.OfferModel)
 RESTAppContainer.bind<CommentsDBServiceInterface>(RESTAppComponent.CommentsDBServiceInterface).to(CommentsDBService);
 RESTAppContainer.bind<types.ModelType<CommentsEntity>>(RESTAppComponent.CommentsModel).toConstantValue(CommentsModel);
 RESTAppContainer.bind<ControllerInterface>(RESTAppComponent.OfferController).to(OfferController).inSingletonScope();
+RESTAppContainer.bind<ControllerInterface>(RESTAppComponent.UserController).to(UserController).inSingletonScope();
+RESTAppContainer.bind<ControllerInterface>(RESTAppComponent.CommentsController).to(CommentsController).inSingletonScope();
+RESTAppContainer.bind<ExceptionFilterInterface>(RESTAppComponent.ExceptionFilterInterface).to(ExceptionFilter).inSingletonScope();
+
 
 const RESTApp = RESTAppContainer.get<RESTApplication>(RESTAppComponent.Application);
 
