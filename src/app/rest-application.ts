@@ -6,8 +6,6 @@ import { LoggerInterface } from '../common/logger/logger.interface.js';
 import { ConfigInterface } from '../common/config/config.interface.js';
 import { MongoDBInterface } from '../common/database-client/mongo-db.interface.js';
 import { getMongoURI } from '../common/database-client/db-uri.js';
-// import OfferDBService from '../modules/offer/offer-service.js';
-// import CommentsDBService from '../modules/comments/comments-service.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 
@@ -19,8 +17,6 @@ export default class RESTApplication {
     @inject(RESTAppComponent.LoggerInterface) private logger: LoggerInterface,
     @inject(RESTAppComponent.ConfigInterface) private configItem: ConfigInterface,
     @inject(RESTAppComponent.DatabaseInterface) private database: MongoDBInterface,
-    // @inject(RESTAppComponent.OfferDBServiceInterface) private offer: OfferDBService,
-    // @inject(RESTAppComponent.CommentsDBServiceInterface) private comments: CommentsDBService,
     @inject(RESTAppComponent.OfferController) private offerController: ControllerInterface,
     @inject(RESTAppComponent.UserController) private userController: ControllerInterface,
     @inject(RESTAppComponent.CommentsController) private commentsController: ControllerInterface,

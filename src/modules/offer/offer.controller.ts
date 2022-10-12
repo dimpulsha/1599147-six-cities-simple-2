@@ -42,9 +42,6 @@ export default class OfferController extends Controller {
   }
 
   public getItem(_req: Request, _res: Response): void {
-    // const getItemResponse = ' offer.getItem Response';
-    // this.logger.info('call offer.getItem method');
-    // this.ok(_res, getItemResponse);
     throw new HttpError(
       StatusCodes.NOT_IMPLEMENTED,
       'Not implemented',
@@ -53,9 +50,6 @@ export default class OfferController extends Controller {
   }
 
   public deleteItem(_req: Request, _res: Response): void {
-    // const getItemResponse = ' offer.deleteItem Response';
-    // this.logger.info('call offer.deleteItem method');
-    // this.ok(_res, getItemResponse);
     throw new HttpError(
       StatusCodes.NOT_IMPLEMENTED,
       'Not implemented',

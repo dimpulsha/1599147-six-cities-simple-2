@@ -5,8 +5,7 @@ import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { StatusCodes } from 'http-status-codes';
-// import { fillDTO } from '../../utils/common-utils.js';
-// import CommentsDBService from './comments-service.js';
+import HttpError from '../../common/errors/http.errors.js';
 
 @injectable()
 export default class CommentsController extends Controller {
@@ -22,15 +21,19 @@ export default class CommentsController extends Controller {
   }
 
   public create(_req: Request, _res: Response): void {
-    const createResponse = ' comments.create Response';
-    this.logger.info('call comments.create method');
-    this.send(_res, StatusCodes.OK, createResponse);
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented',
+      'UserController',
+    );
   }
 
   public getByOfferId(_req: Request, _res: Response): void {
-    const createResponse = ' comments.getByOfferId Response';
-    this.logger.info('call comments.getByOfferId method');
-    this.send(_res, StatusCodes.OK, createResponse);
+    throw new HttpError(
+      StatusCodes.NOT_IMPLEMENTED,
+      'Not implemented',
+      'UserController',
+    );
   }
 
 }
