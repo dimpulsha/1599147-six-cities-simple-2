@@ -13,6 +13,9 @@ import HttpError from '../../common/errors/http.errors.js';
 import CreateOfferDTO from './dto/create-offer.dto.js';
 import OfferItemResponse from './response/offer.response.js';
 import { RequestQuery } from '../../types/request-query.type.js';
+import CommentsResponse from '../comments/response/comments.response.js';
+import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
+
 
 type ParamsGetOffer = {
    offerId: string;
@@ -22,6 +25,7 @@ type ParamsGetOffer = {
 export default class OfferController extends Controller {
   constructor(
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
+    @inject(RESTAppComponent.CommentsDBServiceInterface) readonly commentsService: CommentsDBServiceInterface,
     @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offerService: OfferDBServiceInterface,
   ) {
     super(logger);
@@ -33,6 +37,7 @@ export default class OfferController extends Controller {
     this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem});
     this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update});
     this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem});
+    this.addRoute({path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList});
   }
 
   public async index({ query }: Request<Record<string, unknown>, Record<string, unknown>,  RequestQuery>, res: Response): Promise<void> {
@@ -88,5 +93,20 @@ export default class OfferController extends Controller {
       );
     }
     this.noContent(res, result);
+  }
+
+  public async getCommentsList({ params, query }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, Record<string, unknown>, RequestQuery>, res: Response): Promise<void> {
+    const { offerId } = params;
+    const commentLimit = Number(query.limit);
+    const result = await this.commentsService.getByOfferId(offerId, commentLimit);
+    if (!result) {
+      throw new HttpError(
+        StatusCodes.NOT_FOUND,
+        `Offer ${offerId} not found`,
+        'CommentsController',
+      );
+    }
+    this.logger.debug(JSON.stringify(result));
+    this.ok(res, fillDTO(CommentsResponse, result));
   }
 }

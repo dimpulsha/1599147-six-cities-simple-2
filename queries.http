@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 
 ## Получить предложение
-  GET http://localhost:4390/offer/633dd658acd5f7a16b463d6d HTTP/1.1
+  GET http://localhost:4390/offer/633dd658acd5f7a16b463d79 HTTP/1.1
 Content-Type: application/json
 ###
 ## Создать предложение
@@ -99,7 +99,7 @@ Content-Type: application/json
 ###
 #Комментарии
 ## Получить список комментариев для предложения
-  GET http://localhost:4390/comments/633dd658acd5f7a16b463d79 HTTP/1.1
+  GET http://localhost:4390/offer/comments/633dd658acd5f7a16b463d79 HTTP/1.1
 Content-Type: application/json
 ###
 ## Создать предложение
@@ -107,8 +107,8 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "commentText": "2lksav;shv;lkasclaknc",
-  "rate": 3,
+  "commentText": "3lksav;shv;lkasclaknc",
+  "rate": 5,
   "offerId": "633dd658acd5f7a16b463d79",
   "ownerId": "633dd658acd5f7a16b463dc0"
 }
