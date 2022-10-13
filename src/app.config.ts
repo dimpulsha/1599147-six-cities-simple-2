@@ -1,4 +1,5 @@
 export const DEFAULT_OFFER_COUNT = 60;
+export const DEFAULT_COMMENTS_COUNT = 50;
 export const DEFAULT_AVATAR = 'default.jpg';
 export enum OfferTitle {
   Min = 10,

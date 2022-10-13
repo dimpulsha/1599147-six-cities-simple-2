@@ -6,6 +6,7 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import CreateCommentDTO from './dto/create-comments.dto.js';
 import { CommentsEntity } from './comments.entity.js';
 import { CommentsDBServiceInterface } from './comments-service.interface.js';
+import { DEFAULT_COMMENTS_COUNT } from '../../app.config.js';
 
 @injectable()
 export default class CommentsDBService implements CommentsDBServiceInterface {
@@ -22,9 +23,14 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
     return createResult.populate('ownerId');
   }
 
-  public async getByOfferId(offerId: string): Promise<DocumentType<CommentsEntity>[]> {
-    const getByOfferResult = await this.commentsModel.find({ offerId }).populate('ownerId');
+  public async getByOfferId(offerId: string, count?: number): Promise<DocumentType<CommentsEntity>[]> {
+    let recordLimit = DEFAULT_COMMENTS_COUNT;
+    if (count) {
+      recordLimit = count;
+    }
+    const getByOfferResult = await this.commentsModel.find({ offerId }).limit(recordLimit).populate('ownerId');
     this.logger.debug(`Present comments for offer ${offerId}`);
+    // this.logger.debug(JSON.stringify(getByOfferResult));
     return getByOfferResult;
   }
 
