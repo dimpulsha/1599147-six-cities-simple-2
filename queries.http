@@ -99,7 +99,7 @@ Content-Type: application/json
 ###
 #Комментарии
 ## Получить список комментариев для предложения
-  GET http://localhost:4390/offer/comments/633dd658acd5f7a16b463d79 HTTP/1.1
+  GET http://localhost:4390/offer/comments/633dd658acd5f7a16b463d79  HTTP/1.1
 Content-Type: application/json
 ###
 ## Создать предложение

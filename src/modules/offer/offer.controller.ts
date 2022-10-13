@@ -15,6 +15,7 @@ import OfferItemResponse from './response/offer.response.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import CommentsResponse from '../comments/response/comments.response.js';
 import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
 
 
 type ParamsGetOffer = {
@@ -34,10 +35,10 @@ export default class OfferController extends Controller {
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
     this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem});
-    this.addRoute({path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
+    this.addRoute({path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
   }
 
   public async index({ query }: Request<Record<string, unknown>, Record<string, unknown>,  RequestQuery>, res: Response): Promise<void> {
