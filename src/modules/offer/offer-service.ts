@@ -33,7 +33,7 @@ export default class OfferDBService implements OfferDBServiceInterface {
 
   public async getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
     const offerLimit = count ?? DEFAULT_OFFER_COUNT;
-    return await this.offerModel.find({}, 'offerTitle city offerType publicationDate price isPremium previewImg rating commentsCount').sort({publicationDate: SortKind.Down}).limit(offerLimit).exec();
+    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).limit(offerLimit).exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

@@ -6,7 +6,6 @@ import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import CreateCommentDTO from './dto/create-comments.dto.js';
 import { CommentsEntity } from './comments.entity.js';
 import { CommentsDBServiceInterface } from './comments-service.interface.js';
-import { OfferDBServiceInterface } from '../offer/offer-service.interface.js';
 
 @injectable()
 export default class CommentsDBService implements CommentsDBServiceInterface {
@@ -14,14 +13,12 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
   constructor(
     @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(RESTAppComponent.CommentsModel) private readonly commentsModel: ModelType<CommentsEntity>,
-    @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offer: OfferDBServiceInterface
   ) { }
 
   public async create(commentsDTO: CreateCommentDTO): Promise<DocumentType<CommentsEntity>> {
 
     const createResult = await this.commentsModel.create(commentsDTO);
     this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created`);
-    this.offer.commentInfoUpdate(commentsDTO.offerId);
     return createResult.populate('ownerId');
   }
 

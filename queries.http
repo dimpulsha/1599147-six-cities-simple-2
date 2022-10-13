@@ -1,4 +1,81 @@
 # Тестовые данные
  GET http://localhost:3123/api HTTP/1.1
 Content-Type: application/json
- ###
+###
+#Предложения
+## Получить список предложений
+  GET http://localhost:4390/offer HTTP/1.1
+Content-Type: application/json
+###
+## Получить предложение
+  GET http://localhost:4390/offer/848484 HTTP/1.1
+Content-Type: application/json
+###
+## Создать предложение
+  POST http://localhost:4390/offer HTTP/1.1
+Content-Type: application/json
+
+{
+  "offerTitle": "Offer-5 Beautiful & luxurious studio at great location",
+  "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+    "city": {
+        "name": "Amsterdam",
+        "latitude": 52.370216,
+        "longitude": 4.895168
+    },
+    "previewImg": "offer-5-prew.img",
+    "offerImg": [
+        "offer3-img1.img",
+        "offer4-img1.img",
+        "offer5-img1.img",
+        "offer6-img1.img",
+        "offer7-img1.img",
+        "offer8-img1.img",
+        "offer9-img1.img"
+    ],
+    "isPremium": true,
+    "offerType": "house",
+    "roomsCount": 2,
+    "guestsCount": 1,
+    "price": 79046,
+    "features": [
+       "6339f65e337e90d1c15c07c1",
+       "6339f65e337e90d1c15c07ca"
+    ],
+    "ownerId": "633dd658acd5f7a16b463d93",
+    "offerLocation": {
+        "latitude": 52.369793,
+        "longitude": 4.896663
+    }
+}
+###
+## Удалить предложение
+  DELETE http://localhost:4390/offer/233585 HTTP/1.1
+Content-Type: application/json
+###
+#Пользователь
+## Создать пользователя
+POST http://localhost:4390/user/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "userName": "Fill",
+  "email": "3@fill.com",
+  "password": "123456",
+  "isProUser": true
+}
+###
+## Логин
+POST http://localhost:4390/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "3@fill.com",
+  "password": "123456"
+}
+###
+## Проверить пользователя
+GET http://localhost:4390/user HTTP/1.1
+Content-Type: application/json
+
+###
