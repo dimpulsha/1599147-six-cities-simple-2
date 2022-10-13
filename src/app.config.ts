@@ -20,7 +20,6 @@ export enum Price {
   Min = 100,
   Max = 100000
 }
-
 export enum UserName {
   Min = 1,
   Max = 15

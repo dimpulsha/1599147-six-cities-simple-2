@@ -32,7 +32,11 @@ export default class OfferDBService implements OfferDBServiceInterface {
   }
 
   public async getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const offerLimit = count ?? DEFAULT_OFFER_COUNT;
+    let offerLimit = DEFAULT_OFFER_COUNT;
+    if (count) {
+      offerLimit = count;
+    }
+    this.logger.debug(`Requested ${offerLimit} records from offers collection`);
     return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).limit(offerLimit).exec();
   }
 

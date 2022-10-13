@@ -12,10 +12,11 @@ import { fillDTO } from '../../utils/common-utils.js';
 import HttpError from '../../common/errors/http.errors.js';
 import CreateOfferDTO from './dto/create-offer.dto.js';
 import OfferItemResponse from './response/offer.response.js';
+import { RequestQuery } from '../../types/request-query.type.js';
 
 type ParamsGetOffer = {
    offerId: string;
- }
+}
 
 @injectable()
 export default class OfferController extends Controller {
@@ -34,9 +35,9 @@ export default class OfferController extends Controller {
     this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem});
   }
 
-  // todo - limit добавить
-  public async index(_req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.getList();
+  public async index({ query }: Request<Record<string, unknown>, Record<string, unknown>,  RequestQuery>, res: Response): Promise<void> {
+    this.logger.info(`Client request ${query.limit} records from offer`);
+    const offer = await this.offerService.getList(Number(query.limit));
     const offerResponse = fillDTO(OfferListResponse, offer);
     this.ok(res, offerResponse);
   }
