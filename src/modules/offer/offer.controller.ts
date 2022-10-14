@@ -52,7 +52,7 @@ export default class OfferController extends Controller {
     this.logger.debug(JSON.stringify(body));
     const result = await this.offerService.create(body);
     const offer = await this.offerService.getById(result.id);
-    this.ok(res, fillDTO(OfferItemResponse, offer));
+    this.created(res, fillDTO(OfferItemResponse, offer));
   }
 
   public async getItem({ params }: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response): Promise<void> {

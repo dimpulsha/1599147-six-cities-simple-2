@@ -24,12 +24,8 @@ Content-Type: application/json
   "offerTitle": "Offer-5 Beautiful & luxurious studio at great location",
   "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
   "publicationDate": "2022-10-02T18:56:52.959Z",
-    "city": {
-        "name": "Amsterdam",
-        "latitude": 52.370216,
-        "longitude": 4.895168
-    },
-    "previewImg": "offer-5-prew.img",
+    "cityId": "634956ecb77cdd1ddeab32d7",
+    "previewImg": "offer-5-prw.img",
     "offerImg": [
         "offer3-img1.img",
         "offer4-img1.img",
