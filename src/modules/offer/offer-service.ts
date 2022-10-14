@@ -27,7 +27,7 @@ export default class OfferDBService implements OfferDBServiceInterface {
   }
 
   public async getById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return await this.offerModel.findById(offerId).populate(['features', 'ownerId']).exec();
+    return await this.offerModel.findById(offerId).populate(['cityId', 'features', 'ownerId']).exec();
   }
 
   public async getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
@@ -36,7 +36,7 @@ export default class OfferDBService implements OfferDBServiceInterface {
       recordLimit = count;
     }
     this.logger.debug(`Requested ${recordLimit} records from offers collection`);
-    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).limit(recordLimit).exec();
+    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).populate(['cityId']).limit(recordLimit).exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

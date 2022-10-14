@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export default class FeaturesResponse {
+export default class CitiesResponse {
   @Expose()
   public id!: string;
 

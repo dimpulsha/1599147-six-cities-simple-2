@@ -1,9 +1,9 @@
 import typegoose, { getModelForClass, defaultClasses, Ref } from '@typegoose/typegoose';
-import { City } from '../../types/city.type';
 import { Location } from '../../types/location.type.js';
 import { RoomType } from '../../types/room-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 import { FeatureEntity } from '../features/feature.entity.js';
+import { CityEntity } from '../cities/cities.entity.js';
 import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount } from '../../app.config.js';
 
 const { prop, modelOptions } = typegoose;
@@ -26,8 +26,11 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({ required: true })
   public publicationDate!: Date;
 
-  @prop({required: true})
-  public city!: City;
+  @prop({
+    required: true,
+    ref: CityEntity,
+    _id: false})
+  public cityId!:  Ref<CityEntity>;
 
   @prop({required: true, trim: true})
   public previewImg!: string;

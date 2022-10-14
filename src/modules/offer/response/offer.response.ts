@@ -1,9 +1,9 @@
 import { Expose, Type } from 'class-transformer';
-import { City } from '../../../types/city.type';
 import { Location } from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
 import FeaturesResponse from '../../features/response/features.response.js';
 import UserResponse from '../../user/response/user.response.js';
+import CitiesResponse from '../../cities/response/cities.response.js';
 
 export default class OfferItemResponse {
   @Expose()
@@ -19,7 +19,8 @@ export default class OfferItemResponse {
   public publicationDate!: Date;
 
   @Expose()
-  public city!: City;
+  @Type(() => CitiesResponse)
+  public cityId!: CitiesResponse;
 
   @Expose()
   public previewImg!: string;
