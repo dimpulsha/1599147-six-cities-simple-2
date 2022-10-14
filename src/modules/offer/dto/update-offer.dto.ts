@@ -1,4 +1,4 @@
-import { City } from '../../../types/city.type';
+// import { City } from '../../../types/city.type';
 import { Location } from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
 import { Feature } from '../../../types/feature.type.js';
@@ -6,7 +6,7 @@ import { Feature } from '../../../types/feature.type.js';
 export default class UpdateOfferDTO {
   public offerTitle?: string;
   public offerDescription?: string;
-  public city?: City;
+  public cityId?: string;
   public previewImg?: string;
   public offerImg?: string[];
   public isPremium?: boolean;

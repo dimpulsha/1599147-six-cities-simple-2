@@ -29,7 +29,7 @@ export default class CommentsController extends Controller {
   }
 
   public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentsDTO>, res: Response): Promise<void> {
-    if (!this.offerService.checkOffer(body.offerId)) {
+    if (!this.offerService.check(body.offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
         `Offer ${body.offerId} not found`,

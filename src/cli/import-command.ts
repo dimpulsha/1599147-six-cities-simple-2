@@ -17,11 +17,17 @@ import FeatureDBService from '../modules/features/feature-service.js';
 import { OfferDBServiceInterface } from '../modules/offer/offer-service.interface.js';
 import { OfferModel } from '../modules/offer/offer.entity.js';
 import OfferDBService from '../modules/offer/offer-service.js';
+import { CitiesDBServiceInterface } from '../modules/cities/cities-service.interface.js';
+import { CityModel } from '../modules/cities/cities.entity.js';
+import CitiesDBService from '../modules/cities/cities.service.js';
+import { CommentsDBServiceInterface } from '../modules/comments/comments-service.interface.js';
+import { CommentsModel } from '../modules/comments/comments.entity.js';
+import CommentsDBService from '../modules/comments/comments-service.js';
+
 import { Offer } from '../types/offer.type.js';
 
 const DEFAULT_DB_PORT = 27017;
-const DEFAULT_USER_PASSWORD = 'blablabla';
-
+const DEFAULT_USER_PASSWORD = '123456';
 
 export default class ImportCommand implements CliCommandInterface{
   public readonly name = '--import';
@@ -30,6 +36,8 @@ export default class ImportCommand implements CliCommandInterface{
   private featureService!: FeatureDBServiceInterface;
   private offerService!: OfferDBServiceInterface;
   private databaseService!: MongoDBInterface;
+  private commentsService!: CommentsDBServiceInterface;
+  private cityService!: CitiesDBServiceInterface;
   private logger!: LoggerInterface;
   private salt!: string;
 
@@ -38,9 +46,11 @@ export default class ImportCommand implements CliCommandInterface{
     this.onComplete = this.onComplete.bind(this);
 
     this.logger = new ConsoleLoggerService();
-    this.offerService = new OfferDBService(OfferModel, this.logger);
+    this.commentsService = new CommentsDBService(this.logger, CommentsModel);
+    this.offerService = new OfferDBService(OfferModel, this.logger, this.commentsService);
     this.featureService = new FeatureDBService(FeatureModel, this.logger,);
     this.userService = new UserDBService(this.logger, UserModel);
+    this.cityService = new CitiesDBService(this.logger, CityModel);
     this.databaseService = new MongoDBService(this.logger);
   }
 
@@ -51,19 +61,20 @@ export default class ImportCommand implements CliCommandInterface{
       password: DEFAULT_USER_PASSWORD
     }, this.salt);
 
+    const city = await this.cityService.findOrCreate({ ...offer.city});
+
     for (const {name} of offer.features) {
       const existCategory = await this.featureService.findOrCreate(name, {name});
       features.push(existCategory.id);
     }
 
-
     await this.offerService.create({
       ...offer,
       features,
       ownerId: user.id,
+      cityId: city.id,
     });
   }
-
 
   private async onLine(rowOffer: string, resolve: () => void) {
     const offer = createOffer(rowOffer);
@@ -76,8 +87,8 @@ export default class ImportCommand implements CliCommandInterface{
     this.databaseService.disconnect();
   }
 
-  public async execute(filename: string, login: string, password: string, host: string, dbname: string, salt: string): Promise<void> {
-    const uri = getMongoURI(login, password, host, DEFAULT_DB_PORT, dbname);
+  public async execute(filename: string, login: string, password: string, host: string, dbName: string, salt: string): Promise<void> {
+    const uri = getMongoURI(login, password, host, DEFAULT_DB_PORT, dbName);
     this.salt = salt;
 
     await this.databaseService.connect(uri);

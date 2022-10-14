@@ -53,16 +53,18 @@ export default class OfferDBService implements OfferDBServiceInterface {
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
-  public async checkOffer(offerId: string): Promise<boolean> {
+  public async check(offerId: string): Promise<boolean> {
     return (await this.offerModel.exists({ _id: offerId })) !== null;
   }
 
   public async commentInfoUpdate(offerId: string): Promise<void> {
-    const offerComments = await this.commentsService.getByOfferId(offerId);
-    const commentsCount = offerComments.length;
-    const avgSumm = offerComments.map(({ rate }) => rate).reduce((avg, rate) => avg + rate / commentsCount, 0);
-    const avgRating = Math.round(avgSumm * 10) / 10;
-    await this.offerModel.findByIdAndUpdate(offerId, [{ $set: { rating: avgRating } }, { $set: { commentsCount: commentsCount } }]);
+    if (this.commentsService) {
+      const offerComments = await this.commentsService.getByOfferId(offerId);
+      const commentsCount = offerComments.length;
+      const avgSumm = offerComments.map(({ rate }) => rate).reduce((avg, rate) => avg + rate / commentsCount, 0);
+      const avgRating = Math.round(avgSumm * 10) / 10;
+      await this.offerModel.findByIdAndUpdate(offerId, [{ $set: { rating: avgRating } }, { $set: { commentsCount: commentsCount } }]);
+    }
   }
 
 }

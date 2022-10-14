@@ -7,7 +7,7 @@ export interface FeatureEntity extends defaultClasses.Base { }
 
 @modelOptions({
   schemaOptions: {
-    collection: 'feature'
+    collection: 'features'
   }
 })
 
