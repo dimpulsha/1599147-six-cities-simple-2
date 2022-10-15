@@ -1,6 +1,5 @@
 import {Request, Response} from 'express';
 import { inject, injectable } from 'inversify';
-// import * as core from 'express-serve-static-core';
 import { StatusCodes } from 'http-status-codes';
 import {Controller} from '../../common/controller/controller.js';
 import {RESTAppComponent} from '../../types/component.types.js';
@@ -12,7 +11,7 @@ import { OfferDBServiceInterface } from '../offer/offer-service.interface.js';
 import { fillDTO } from '../../utils/common-utils.js';
 import CommentsResponse from './response/comments.response.js';
 import CreateCommentsDTO from './dto/create-comments.dto.js';
-
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 @injectable()
 export default class CommentsController extends Controller {
@@ -25,7 +24,7 @@ export default class CommentsController extends Controller {
     super(logger);
 
     this.logger.info('Register routes for OfferController…');
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateCommentsDTO)]});
   }
 
   public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentsDTO>, res: Response): Promise<void> {

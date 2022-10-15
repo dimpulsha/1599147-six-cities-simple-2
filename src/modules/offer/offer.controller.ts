@@ -11,12 +11,13 @@ import OfferListResponse from './response/offer-list.response.js';
 import { fillDTO } from '../../utils/common-utils.js';
 import HttpError from '../../common/errors/http.errors.js';
 import CreateOfferDTO from './dto/create-offer.dto.js';
+import UpdateOfferDTO from './dto/update-offer.dto.js';
 import OfferItemResponse from './response/offer.response.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import CommentsResponse from '../comments/response/comments.response.js';
 import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
-
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 
 type ParamsGetOffer = {
    offerId: string;
@@ -34,9 +35,9 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create});
+    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateOfferDTO)]});
     this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
+    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update, middlewares: [new ValidateObjectIdMiddleware('offerId'), new ValidateDtoMiddleware(CreateOfferDTO)]});
     this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
     this.addRoute({path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList, middlewares: [new ValidateObjectIdMiddleware('offerId')]});
   }
@@ -68,7 +69,7 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferItemResponse, result));
   }
 
-  public async update({ body, params }: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response): Promise<void> {
+  public async update({ body, params }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
     const { offerId } = params;
     const result = await this.offerService.updateById(offerId, body);
     // todo - проверка пользователя
