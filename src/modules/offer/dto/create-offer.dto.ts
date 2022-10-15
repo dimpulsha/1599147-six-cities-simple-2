@@ -21,7 +21,7 @@ export default class CreateOfferDTO {
   @IsMongoId({ message: 'City must by valid MongoDB ID'})
   public cityId!: string;
 
-  @IsString({message: 'Preview title is required'})
+  @IsString({message: 'Preview image is required'})
   public previewImg!: string;
 
   @IsNotEmpty({message: 'Offer image is required'})
@@ -38,12 +38,12 @@ export default class CreateOfferDTO {
 
   @IsInt({message: 'Rooms quantity must be an integer'})
   @Min(1, {message: 'Minimum 1 room'})
-  @Max(1, {message: 'Maximum 8 rooms'})
+  @Max(8, {message: 'Maximum 8 rooms'})
   public roomsCount!: number;
 
   @IsInt({message: 'Guests quantity must be an integer'})
   @Min(1, {message: 'Minimum 1 guest'})
-  @Max(1, {message: 'Maximum 10 guests'})
+  @Max(10, {message: 'Maximum 10 guests'})
   public guestsCount!: number;
 
   @IsInt({message: 'Price value must be an integer'})
@@ -55,7 +55,7 @@ export default class CreateOfferDTO {
   @IsArray({message: 'Features list must be an Array of images'})
   public features!: Feature[];
 
-  @IsString({message: 'Offer owner title is required'})
+  @IsString({message: 'Offer owner is required'})
   @IsMongoId({ message: 'Offer owner Id must by valid MongoDB ID'})
   public ownerId!: string;
 
