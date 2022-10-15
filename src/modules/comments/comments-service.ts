@@ -30,7 +30,6 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
     }
     const getByOfferResult = await this.commentsModel.find({ offerId }).limit(recordLimit).populate('ownerId');
     this.logger.debug(`Present comments for offer ${offerId}`);
-    // this.logger.debug(JSON.stringify(getByOfferResult));
     return getByOfferResult;
   }
 

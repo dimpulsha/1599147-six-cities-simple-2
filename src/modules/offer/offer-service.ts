@@ -53,8 +53,8 @@ export default class OfferDBService implements OfferDBServiceInterface {
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
-  public async check(offerId: string): Promise<boolean> {
-    return (await this.offerModel.exists({ _id: offerId })) !== null;
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({ _id: documentId })) !== null;
   }
 
   public async commentInfoUpdate(offerId: string): Promise<void> {
