@@ -3,7 +3,6 @@ import {NextFunction, Request, Response} from 'express';
 import {DocumentExistsInterface} from '../../types/document-exists.interface.js';
 // import HttpError from '../errors/http.errors.js';
 import { StatusCodes } from 'http-status-codes';
-// import { createErrorObject } from '../../utils/common-utils.js';
 
 export class DocumentExistsMiddleware implements MiddlewareInterface {
   constructor(
