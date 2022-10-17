@@ -27,7 +27,8 @@ export default class CommentsController extends Controller {
     this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateCommentsDTO)]});
   }
 
-  public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentsDTO>, res: Response): Promise<void> {
+  public async create(req: Request<object, object, CreateCommentsDTO>, res: Response): Promise<void> {
+    const {body} = req;
     if (!this.offerService.exists(body.offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
@@ -35,8 +36,8 @@ export default class CommentsController extends Controller {
         'CommentsController',
       );
     }
-    // todo нет проверки на пользователя
-    const commentResult = await this.commentsService.create(body);
+
+    const commentResult = await this.commentsService.create({...body, ownerId: req.user.id});
     await this.offerService.commentInfoUpdate(body.offerId);
     this.ok(res, fillDTO(CommentsResponse, commentResult));
   }

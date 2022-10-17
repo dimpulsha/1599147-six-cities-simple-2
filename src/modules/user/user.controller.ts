@@ -74,7 +74,7 @@ export default class UserController extends Controller {
 
     const userToken = await createJWT(JWT_ALGORITHM, this.configService.getItem('JWT_SECRET'), { email: user.email, id: user.id });
     this.logger.debug(String(userToken));
-    this.ok(res, fillDTO(LoggedUserResponse, { email: user.email, userToken }));
+    this.ok(res, fillDTO(LoggedUserResponse, { email: user.email, authToken: userToken }));
 
   }
 
