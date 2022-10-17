@@ -10,6 +10,6 @@ export interface OfferDBServiceInterface extends DocumentExistsInterface {
   getList(count?: number|undefined): Promise<DocumentType<OfferEntity>[]>;
   deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null>;
-  // exist(offerId: string): Promise<boolean>;
+  exists(offerId: string): Promise<boolean>;
   commentInfoUpdate(offerId: string): Promise<void>;
 }
