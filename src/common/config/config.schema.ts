@@ -12,6 +12,7 @@ export type ConfigSchema = {
   DATABASE_PWD: string;
   UPLOAD_DIRECTORY: string;
   SALT: string;
+  JWT_SECRET: string,
  }
 
 export const configSchema = convict<ConfigSchema>({
@@ -61,6 +62,12 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Random value for security',
     format: String,
     env: 'REST_SALT',
+    default: null
+  },
+  JWT_SECRET: {
+    doc: 'Secret key for JWT',
+    format: String,
+    env: 'REST_JWT_SECRET',
     default: null
   }
 });

@@ -1,22 +1,23 @@
 import {Request, Response} from 'express';
 import { inject, injectable } from 'inversify';
-import * as core from 'express-serve-static-core';
+// import * as core from 'express-serve-static-core';
 import {Controller} from '../../common/controller/controller.js';
 import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { StatusCodes } from 'http-status-codes';
-import { fillDTO } from '../../utils/common-utils.js';
+import { fillDTO, createJWT } from '../../utils/common-utils.js';
 import { UserDBServiceInterface } from './user-service.interface.js';
 import UserResponse from './response/user.response.js';
+import LoggedUserResponse from './response/logged-user.response.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import HttpError from '../../common/errors/http.errors.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
-import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
-
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import { JWT_ALGORITHM } from '../../app.config.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -65,17 +66,16 @@ export default class UserController extends Controller {
 
   public async userLogin({ body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>, res: Response): Promise<void> {
     this.logger.debug(JSON.stringify(body));
-    const existUser = await this.userService.findByMail(body.email);
+    const user = await this.userService.verifyUser(body,this.configService.getItem('SALT'));
 
-    if (!existUser) {
+    if (!user) {
       throw new HttpError( StatusCodes.CONFLICT, `Incorrect email «${body.email}» or password.`, 'UserController' );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+    const userToken = await createJWT(JWT_ALGORITHM, this.configService.getItem('JWT_SECRET'), { email: user.email, id: user.id });
+    this.logger.debug(String(userToken));
+    this.ok(res, fillDTO(LoggedUserResponse, { email: user.email, userToken }));
+
   }
 
   public async avatarUpload(req: Request, res: Response) {
