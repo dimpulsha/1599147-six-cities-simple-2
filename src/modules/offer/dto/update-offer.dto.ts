@@ -1,7 +1,21 @@
-import {IsArray, IsEnum, IsInt, IsMongoId, Max, Min, IsBoolean, Length,IsOptional } from 'class-validator';
-import { Location } from '../../../types/location.type.js';
+import {IsArray, IsEnum, IsInt, IsMongoId, Max, Min, IsBoolean, Length,IsOptional, IsNumber, IsString, ArrayMinSize, ArrayMaxSize, ValidateNested  } from 'class-validator';
+import { Location as LocationType } from '../../../types/location.type.js';
+import { Type } from 'class-transformer';
 import { RoomType } from '../../../types/room-type.enum.js';
-import { Feature } from '../../../types/feature.type.js';
+import { Feature as FeatureType} from '../../../types/feature.type.js';
+
+class Location implements LocationType {
+  @IsNumber({}, {message: 'latitude is required'})
+  public latitude!: number;
+
+  @IsNumber({}, {message: 'longitude is required'})
+  public longitude!: number;
+}
+
+class Feature implements FeatureType {
+  @IsString({message: 'Feature name is required'})
+  public name!: string;
+}
 
 export default class UpdateOfferDTO {
 
@@ -22,6 +36,8 @@ export default class UpdateOfferDTO {
 
   @IsOptional()
   @IsArray({ message: 'Offer image list must be an Array of images' })
+  @ArrayMinSize(6, {message: 'offerImages must contain 6 items'})
+  @ArrayMaxSize(6, {message: 'offerImages must contain 6 items'})
   public offerImg?: string[];
 
   @IsOptional()
@@ -50,12 +66,14 @@ export default class UpdateOfferDTO {
   @Max(100000, {message: 'Maximum price is 100 000'})
   public price?: number;
 
-
   @IsOptional()
   @IsArray({message: 'Features list must be an Array of images'})
-  public features?: Feature[];
+  @ValidateNested()
+  @Type(() => Feature)
+  public features!: Feature[];
 
-  // todo проверка на тип данных?
   @IsOptional()
-  public offerLocation?: Location;
+  @ValidateNested()
+  @Type(() => Location)
+  public offerLocation!: Location;
 }

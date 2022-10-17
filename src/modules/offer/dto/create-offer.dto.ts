@@ -1,7 +1,21 @@
-import {IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty} from 'class-validator';
-import { Location } from '../../../types/location.type.js';
+import {IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsNumber, ValidateNested} from 'class-validator';
+import { Location as LocationType} from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
-import { Feature } from '../../../types/feature.type.js';
+import { Type } from 'class-transformer';
+import { Feature as FeatureType } from '../../../types/feature.type.js';
+
+class Location implements LocationType {
+  @IsNumber({}, {message: 'latitude is required'})
+  public latitude!: number;
+
+  @IsNumber({}, {message: 'longitude is required'})
+  public longitude!: number;
+}
+
+class Feature implements FeatureType {
+  @IsString({message: 'Feature name is required'})
+  public name!: string;
+}
 
 export default class CreateOfferDTO {
 
@@ -26,6 +40,8 @@ export default class CreateOfferDTO {
 
   @IsNotEmpty({message: 'Offer image is required'})
   @IsArray({ message: 'Offer image list must be an Array of images' })
+  @ArrayMinSize(6, {message: 'offerImages must contain 6 items'})
+  @ArrayMaxSize(6, {message: 'offerImages must contain 6 items'})
   public offerImg!: string[];
 
   @IsNotEmpty({message: '"Premium" flag is required'})
@@ -52,14 +68,17 @@ export default class CreateOfferDTO {
   public price!: number;
 
   // todo - проверку на существование в БД
-  @IsArray({message: 'Features list must be an Array of images'})
+  @IsArray({ message: 'Features list must be an Array of images' })
+  @ValidateNested()
+  @Type(() => Feature)
   public features!: Feature[];
 
   @IsString({message: 'Offer owner is required'})
   @IsMongoId({ message: 'Offer owner Id must by valid MongoDB ID'})
   public ownerId!: string;
 
-  // todo проверка на тип данных
-  @IsNotEmpty({message: 'Location is required'})
+  @IsNotEmpty({ message: 'Location is required' })
+  @ValidateNested()
+  @Type(() => Location)
   public offerLocation!: Location;
 }
