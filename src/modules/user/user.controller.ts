@@ -18,6 +18,7 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { JWT_ALGORITHM } from '../../app.config.js';
+import { UnPrivateRouteMiddleware } from '../../common/middlewares/unprivate-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -30,7 +31,7 @@ export default class UserController extends Controller {
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
-    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateUserDto)] });
+    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create, middlewares: [new UnPrivateRouteMiddleware, new ValidateDtoMiddleware(CreateUserDto)] });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.check });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.userLogin });
     this.addRoute({
@@ -56,12 +57,17 @@ export default class UserController extends Controller {
     this.created(res, fillDTO(UserResponse, result));
   }
 
-  public async check(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented.',
-      'UserController',
-    );
+  public async check(req: Request, res: Response): Promise<void> {
+    const user = await this.userService.findByMail(req.user.email);
+    this.logger.debug(JSON.stringify(user));
+    if (!user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'PrivateRouteMiddleware'
+      );
+    }
+    this.ok(res, fillDTO(UserResponse, user));
   }
 
   public async userLogin({ body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>, res: Response): Promise<void> {
