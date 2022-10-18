@@ -11,14 +11,13 @@ import UpdateOfferDTO from './dto/update-offer.dto.js';
 import { SortKind } from '../../types/sort-kind.enum.js';
 import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
 
-
 @injectable()
 export default class OfferDBService implements OfferDBServiceInterface {
 
   constructor(
     @inject(RESTAppComponent.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
     @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
-    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly comments: CommentsDBServiceInterface,
+    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly commentsService: CommentsDBServiceInterface
   ) { }
 
   public async create(offerDTO: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
@@ -28,18 +27,22 @@ export default class OfferDBService implements OfferDBServiceInterface {
   }
 
   public async getById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return await this.offerModel.findById(offerId).populate(['features', 'ownerId']).exec();
+    return await this.offerModel.findById(offerId).populate(['cityId', 'features', 'ownerId']).exec();
   }
 
   public async getList(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const offerLimit = count ?? DEFAULT_OFFER_COUNT;
-    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).limit(offerLimit).exec();
+    let recordLimit = DEFAULT_OFFER_COUNT;
+    if (count) {
+      recordLimit = count;
+    }
+    this.logger.debug(`Requested ${recordLimit} records from offers collection`);
+    return await this.offerModel.find().sort({ publicationDate: SortKind.Down }).populate(['cityId']).limit(recordLimit).exec();
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     const result = await this.offerModel.findByIdAndDelete(offerId).exec();
     if (result) {
-      this.comments.deleteByOfferId(offerId);
+      this.commentsService.deleteByOfferId(offerId);
       this.logger.info(`Delete offer ${offerId}`);
     }
     return result;
@@ -50,12 +53,18 @@ export default class OfferDBService implements OfferDBServiceInterface {
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }
 
+  public async exists(documentId: string): Promise<boolean> {
+    return (await this.offerModel.exists({ _id: documentId })) !== null;
+  }
+
   public async commentInfoUpdate(offerId: string): Promise<void> {
-    const offerComments = await this.comments.getByOfferId(offerId);
-    const commentsCount = offerComments.length;
-    const avgSumm = offerComments.map(({ rate }) => rate).reduce((avg, rate) => avg + rate / commentsCount, 0);
-    const avgRating = Math.round(avgSumm * 10) / 10;
-    await this.offerModel.findByIdAndUpdate(offerId, [{ $set: { rating: avgRating } }, { $set: { commentsCount: commentsCount } }]);
+    if (this.commentsService) {
+      const offerComments = await this.commentsService.getByOfferId(offerId);
+      const commentsCount = offerComments.length;
+      const avgSumm = offerComments.map(({ rate }) => rate).reduce((avg, rate) => avg + rate / commentsCount, 0);
+      const avgRating = Math.round(avgSumm * 10) / 10;
+      await this.offerModel.findByIdAndUpdate(offerId, [{ $set: { rating: avgRating } }, { $set: { commentsCount: commentsCount } }]);
+    }
   }
 
 }

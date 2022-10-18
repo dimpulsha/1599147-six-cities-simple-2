@@ -8,8 +8,4 @@ export interface ControllerInterface {
   ok<T>(res: Response, data: T): void;
   created<T>(res: Response, data: T): void;
   noContent<T>(res: Response, data: T): void;
-  requestError<T>(res: Response, data: T): void;
-  authError<T>(res: Response, data: T): void;
-  notFound<T>(res: Response, data: T): void;
-  serverError<T>(res: Response, data: T): void
 }

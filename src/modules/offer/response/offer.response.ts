@@ -1,8 +1,9 @@
-import { Expose } from 'class-transformer';
-import { City } from '../../../types/city.type';
+import { Expose, Type } from 'class-transformer';
 import { Location } from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
-import { Feature } from '../../../types/feature.type.js';
+import FeaturesResponse from '../../features/response/features.response.js';
+import UserResponse from '../../user/response/user.response.js';
+import CitiesResponse from '../../cities/response/cities.response.js';
 
 export default class OfferItemResponse {
   @Expose()
@@ -15,7 +16,11 @@ export default class OfferItemResponse {
   public offerDescription!: string;
 
   @Expose()
-  public city!: City;
+  public publicationDate!: Date;
+
+  @Expose()
+  @Type(() => CitiesResponse)
+  public cityId!: CitiesResponse;
 
   @Expose()
   public previewImg!: string;
@@ -25,6 +30,9 @@ export default class OfferItemResponse {
 
   @Expose()
   public isPremium!: boolean;
+
+  @Expose()
+  public rating!: number;
 
   @Expose()
   public offerType!: RoomType;
@@ -39,10 +47,15 @@ export default class OfferItemResponse {
   public price!: number;
 
   @Expose()
-  public features!: Feature[];
+  @Type(() => FeaturesResponse)
+  public features!: FeaturesResponse[];
 
   @Expose()
-  public ownerId!: string;
+  @Type(() => UserResponse)
+  public ownerId!: UserResponse;
+
+  @Expose()
+  public commentsCount!: number;
 
   @Expose()
   public offerLocation!: Location;

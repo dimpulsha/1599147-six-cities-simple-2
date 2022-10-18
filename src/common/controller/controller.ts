@@ -19,7 +19,12 @@ export abstract class Controller implements ControllerInterface {
   }
 
   public addRoute(route: RouteInterface) {
-    this._router[route.method](route.path, asyncHandler(route.handler.bind(this)));
+    const commonHandler = asyncHandler(route.handler.bind(this));
+    const middlewares = route.middlewares?.map((middleware) => middleware.execute.bind(middleware));
+    const allHandlers = middlewares ? [...middlewares, commonHandler] : commonHandler;
+
+    this._router[route.method](route.path, allHandlers);
+
     this.logger.info(`Route registered: ${route.method.toUpperCase()} ${route.path}`);
   }
 
@@ -40,21 +45,5 @@ export abstract class Controller implements ControllerInterface {
 
   public ok<T>(res: Response, data: T): void {
     this.send(res, StatusCodes.OK, data);
-  }
-
-  public requestError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.BAD_REQUEST, data);
-  }
-
-  public authError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.FORBIDDEN, data);
-  }
-
-  public notFound<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.NOT_FOUND, data);
-  }
-
-  public serverError<T>(res: Response, data: T): void {
-    this.send(res, StatusCodes.INTERNAL_SERVER_ERROR, data);
   }
 }

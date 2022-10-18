@@ -16,3 +16,4 @@ mocks/test-data.tsv
 /_temp/
 .env
 /mongodb/
+/upload-img/*

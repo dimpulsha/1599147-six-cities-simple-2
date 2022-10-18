@@ -15,4 +15,6 @@ export const RESTAppComponent = {
   CommentsController: Symbol.for('CommentsController'),
   UserController: Symbol.for('UserController'),
   ExceptionFilterInterface: Symbol.for('ExceptionFilterInterface'),
+  CitiesDBServiceInterface: Symbol.for('CitiesDBServiceInterface'),
+  CityModel: Symbol.for('CityModel')
 } as const;

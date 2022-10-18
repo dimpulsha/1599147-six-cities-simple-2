@@ -1,6 +1,6 @@
-import { Expose } from 'class-transformer';
-import { City } from '../../../types/city.type';
+import { Expose, Type } from 'class-transformer';
 import { RoomType } from '../../../types/room-type.enum.js';
+import CitiesResponse from '../../cities/response/cities.response.js';
 
 export default class OfferListResponse {
   @Expose()
@@ -13,7 +13,8 @@ export default class OfferListResponse {
   public publicationDate!: Date;
 
   @Expose()
-  public city!: City;
+  @Type(() => CitiesResponse)
+  public cityId!: CitiesResponse;
 
   @Expose()
   public previewImg!: string;

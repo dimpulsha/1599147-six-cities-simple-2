@@ -7,8 +7,13 @@ Content-Type: application/json
   GET http://localhost:4390/offer HTTP/1.1
 Content-Type: application/json
 ###
+## Получить определенное количество предложений
+  GET http://localhost:4390/offer?limit=12 HTTP/1.1
+Content-Type: application/json
+###
+
 ## Получить предложение
-  GET http://localhost:4390/offer/848484 HTTP/1.1
+  GET http://localhost:4390/offer/63495d4de2ffc3443fb11b06 HTTP/1.1
 Content-Type: application/json
 ###
 ## Создать предложение
@@ -18,11 +23,8 @@ Content-Type: application/json
 {
   "offerTitle": "Offer-5 Beautiful & luxurious studio at great location",
   "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
-    "city": {
-        "name": "Amsterdam",
-        "latitude": 52.370216,
-        "longitude": 4.895168
-    },
+  "publicationDate": "2022-10-02T18:56:52.959Z",
+    "cityId": "634956ecb77cdd1ddeab32d7",
     "previewImg": "offer-5-prew.img",
     "offerImg": [
         "offer3-img1.img",
@@ -49,8 +51,20 @@ Content-Type: application/json
     }
 }
 ###
+## Изменить предложение
+  PATCH  http://localhost:4390/offer/634732f4a0a9a1c459717294  HTTP/1.1
+Content-Type: application/json
+
+{
+  "offerTitle": "Offer-300 Beautiful & luxurious studio at great location",
+  "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+    "roomsCount": 5,
+    "guestsCount": 3,
+    "price": 79988
+}
+###
 ## Удалить предложение
-  DELETE http://localhost:4390/offer/233585 HTTP/1.1
+  DELETE http://localhost:4390/offer/633dd658acd5f7a16b463d84 HTTP/1.1
 Content-Type: application/json
 ###
 #Пользователь
@@ -78,4 +92,20 @@ Content-Type: application/json
 GET http://localhost:4390/user HTTP/1.1
 Content-Type: application/json
 
+###
+#Комментарии
+## Получить список комментариев для предложения
+  GET http://localhost:4390/offer/comments/633dd658acd5f7a16b463d79  HTTP/1.1
+Content-Type: application/json
+###
+## Создать предложение
+  POST  http://localhost:4390/comments/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "commentText": "3lksav;shv;lkasclaknc",
+  "rate": 5,
+  "offerId": "633dd658acd5f7a16b463d79",
+  "ownerId": "633dd658acd5f7a16b463dc0"
+}
 ###
