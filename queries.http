@@ -40,10 +40,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6I
     "roomsCount": 2,
     "guestsCount": 1,
     "price": 79046,
-    "features": [{
-       "id": "634956ecb77cdd1ddeab32da"},
-       {"id":"634956ecb77cdd1ddeab0000"}
-    ],
+    "features": [
+      "634956ecb77cdd1ddeab32da",
+      "634956ecb77cdd1ddeab0000"
+      ],
     "offerLocation": {
         "latitude": 52.369793,
         "longitude": 4.896663
