@@ -34,6 +34,10 @@ export default class RESTApplication {
 
   public initMiddleware() {
     this.expressInstance.use(express.json());
+    this.expressInstance.use(
+      '/upload',
+      express.static(this.configItem.getItem('UPLOAD_DIRECTORY'))
+    );
   }
 
   public initExceptionFilters() {

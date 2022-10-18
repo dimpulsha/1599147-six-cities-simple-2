@@ -10,7 +10,7 @@ export type ConfigSchema = {
   DATABASE_NAME: string;
   DATABASE_USER: string;
   DATABASE_PWD: string;
-  SERVICE_LOG_PATH: string;
+  UPLOAD_DIRECTORY: string;
   SALT: string;
  }
 
@@ -51,11 +51,11 @@ export const configSchema = convict<ConfigSchema>({
     env: 'REST_DATABASE_PWD',
     default: null
   },
-  SERVICE_LOG_PATH: {
-    doc: 'Path to LOG-files',
+  UPLOAD_DIRECTORY: {
+    doc: 'Path to upload image',
     format: String,
-    env: 'REST_SERVICE_LOG_PATH',
-    default: './logs'
+    env: 'REST_UPLOAD_DIRECTORY',
+    default: './upload-img'
   },
   SALT: {
     doc: 'Random value for security',
