@@ -7,8 +7,8 @@ export default class CreateCommentsDTO {
   public commentText!: string;
 
   @IsNotEmpty({ message: 'Rating value is required' })
-  @Min(1, {message: 'Minimum 1 room'})
-  @Max(8, {message: 'Maximum 8 rooms'})
+  @Min(1, {message: 'Minimum 1 '})
+  @Max(5, {message: 'Maximum 5 '})
   public rate!: number;
 
   @IsString({message: 'Offer Id is required'})
