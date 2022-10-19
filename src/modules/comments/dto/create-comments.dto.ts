@@ -15,7 +15,5 @@ export default class CreateCommentsDTO {
   @IsMongoId({ message: 'Offer Id must by valid MongoDB ID'})
   public offerId!: string;
 
-  @IsString({message: 'Offer owner  is required'})
-  @IsMongoId({ message: 'Offer owner Id must by valid MongoDB ID'})
   public ownerId!: string;
 }

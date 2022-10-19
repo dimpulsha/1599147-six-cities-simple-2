@@ -12,6 +12,7 @@ import { fillDTO } from '../../utils/common-utils.js';
 import CommentsResponse from './response/comments.response.js';
 import CreateCommentsDTO from './dto/create-comments.dto.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
 
 @injectable()
 export default class CommentsController extends Controller {
@@ -24,10 +25,14 @@ export default class CommentsController extends Controller {
     super(logger);
 
     this.logger.info('Register routes for OfferController…');
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateCommentsDTO)]});
+    this.addRoute({
+      path: '/', method: HttpMethod.Post, handler: this.create,
+      middlewares: [new PrivateRouteMiddleware, new ValidateDtoMiddleware(CreateCommentsDTO)]
+    });
   }
 
-  public async create({ body }: Request<Record<string, unknown>, Record<string, unknown>, CreateCommentsDTO>, res: Response): Promise<void> {
+  public async create(req: Request<object, object, CreateCommentsDTO>, res: Response): Promise<void> {
+    const {body} = req;
     if (!this.offerService.exists(body.offerId)) {
       throw new HttpError(
         StatusCodes.NOT_FOUND,
@@ -35,8 +40,8 @@ export default class CommentsController extends Controller {
         'CommentsController',
       );
     }
-    // todo нет проверки на пользователя
-    const commentResult = await this.commentsService.create(body);
+
+    const commentResult = await this.commentsService.create({...body, ownerId: req.user.id});
     await this.offerService.commentInfoUpdate(body.offerId);
     this.ok(res, fillDTO(CommentsResponse, commentResult));
   }

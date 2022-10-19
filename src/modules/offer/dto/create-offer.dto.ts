@@ -2,7 +2,6 @@ import {IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, L
 import { Location as LocationType} from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
 import { Type } from 'class-transformer';
-import { Feature as FeatureType } from '../../../types/feature.type.js';
 
 class Location implements LocationType {
   @IsNumber({}, {message: 'latitude is required'})
@@ -10,11 +9,6 @@ class Location implements LocationType {
 
   @IsNumber({}, {message: 'longitude is required'})
   public longitude!: number;
-}
-
-class Feature implements FeatureType {
-  @IsString({message: 'Feature name is required'})
-  public name!: string;
 }
 
 export default class CreateOfferDTO {
@@ -69,12 +63,9 @@ export default class CreateOfferDTO {
 
   // todo - проверку на существование в БД
   @IsArray({ message: 'Features list must be an Array of images' })
-  @ValidateNested()
-  @Type(() => Feature)
-  public features!: Feature[];
+  @IsMongoId({each: true, message: 'Features must by valid MongoDB ID'})
+  public features!: string[];
 
-  @IsString({message: 'Offer owner is required'})
-  @IsMongoId({ message: 'Offer owner Id must by valid MongoDB ID'})
   public ownerId!: string;
 
   @IsNotEmpty({ message: 'Location is required' })

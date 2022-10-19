@@ -1,3 +1,4 @@
 export type Feature = {
-  name: string
+  id?: string;
+  name?: string
 };

@@ -19,6 +19,7 @@ Content-Type: application/json
 ## Создать предложение
   POST http://localhost:4390/offer HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
 
 {
   "offerTitle": "Offer-5 Beautiful & luxurious studio at great location",
@@ -28,7 +29,6 @@ Content-Type: application/json
     "previewImg": "offer-5-prew.img",
     "offerImg": [
         "offer3-img1.img",
-        "offer4-img1.img",
         "offer5-img1.img",
         "offer6-img1.img",
         "offer7-img1.img",
@@ -41,10 +41,9 @@ Content-Type: application/json
     "guestsCount": 1,
     "price": 79046,
     "features": [
-       "6339f65e337e90d1c15c07c1",
-       "6339f65e337e90d1c15c07ca"
-    ],
-    "ownerId": "633dd658acd5f7a16b463d93",
+      "634956ecb77cdd1ddeab32da",
+      "634956ecb77cdd1ddeab0000"
+      ],
     "offerLocation": {
         "latitude": 52.369793,
         "longitude": 4.896663
@@ -74,7 +73,7 @@ Content-Type: application/json
 
 {
   "userName": "Fill",
-  "email": "3@fill.com",
+  "email": "4@fill.com",
   "password": "123456",
   "isProUser": true
 }
@@ -91,6 +90,7 @@ Content-Type: application/json
 ## Проверить пользователя
 GET http://localhost:4390/user HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
 
 ###
 ## Отправка аватарки пользователю
@@ -113,6 +113,7 @@ Content-Type: application/json
 ## Создать комментарий
   POST  http://localhost:4390/comments/ HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
 
 {
   "commentText": "3lksav;shv;lkasclaknc",

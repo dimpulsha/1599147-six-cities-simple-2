@@ -4,6 +4,7 @@ import { DocumentType, types } from '@typegoose/typegoose';
 import { UserEntity } from './user.entity.js';
 import { UserDBServiceInterface } from './user-service.interface.js';
 import CreateUserDto from './dto/create-user.dto.js';
+import LoginUserDto from './dto/login-user.dto.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { RESTAppComponent } from '../../types/component.types.js';
 
@@ -41,6 +42,15 @@ export default class UserDBService implements UserDBServiceInterface {
     }
 
     return this.create(userDTO, salt);
+  }
+
+  public async verifyUser(userDTO: LoginUserDto, salt: string): Promise<DocumentType<UserEntity> | null> {
+    const user = await this.findByMail(userDTO.email);
+    if (!user) { return null; }
+
+    if (user.verifyPassword(userDTO.password, salt)) { return user; }
+
+    return null;
   }
 
 }

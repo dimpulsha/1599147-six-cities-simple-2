@@ -1,22 +1,24 @@
 import {Request, Response} from 'express';
 import { inject, injectable } from 'inversify';
-import * as core from 'express-serve-static-core';
+// import * as core from 'express-serve-static-core';
 import {Controller} from '../../common/controller/controller.js';
 import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { StatusCodes } from 'http-status-codes';
-import { fillDTO } from '../../utils/common-utils.js';
+import { fillDTO, createJWT } from '../../utils/common-utils.js';
 import { UserDBServiceInterface } from './user-service.interface.js';
 import UserResponse from './response/user.response.js';
+import LoggedUserResponse from './response/logged-user.response.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import LoginUserDto from './dto/login-user.dto.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
 import HttpError from '../../common/errors/http.errors.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
-import {UploadFileMiddleware} from '../../common/middlewares/upload-file.middleware.js';
-
+import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
+import { JWT_ALGORITHM } from '../../app.config.js';
+import { UnPrivateRouteMiddleware } from '../../common/middlewares/unprivate-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -29,7 +31,7 @@ export default class UserController extends Controller {
   ) {
     super(logger);
     this.logger.info('Register routes for UserController');
-    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create, middlewares: [new ValidateDtoMiddleware(CreateUserDto)] });
+    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create, middlewares: [new UnPrivateRouteMiddleware, new ValidateDtoMiddleware(CreateUserDto)] });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.check });
     this.addRoute({ path: '/', method: HttpMethod.Post, handler: this.userLogin });
     this.addRoute({
@@ -55,27 +57,30 @@ export default class UserController extends Controller {
     this.created(res, fillDTO(UserResponse, result));
   }
 
-  public async check(_req: Request, _res: Response): Promise<void> {
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented.',
-      'UserController',
-    );
+  public async check(req: Request, res: Response): Promise<void> {
+    const user = await this.userService.findByMail(req.user.email);
+    this.logger.debug(JSON.stringify(user));
+    if (!user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'PrivateRouteMiddleware'
+      );
+    }
+    this.ok(res, fillDTO(UserResponse, user));
   }
 
   public async userLogin({ body }: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>, res: Response): Promise<void> {
     this.logger.debug(JSON.stringify(body));
-    const existUser = await this.userService.findByMail(body.email);
+    const user = await this.userService.verifyUser(body,this.configService.getItem('SALT'));
 
-    if (!existUser) {
-      throw new HttpError( StatusCodes.CONFLICT, `Incorrect email «${body.email}» or password.`, 'UserController' );
+    if (!user) {
+      throw new HttpError( StatusCodes.CONFLICT, `Incorrect email ${body.email} or password.`, 'UserController' );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
-      'UserController',
-    );
+    const userToken = await createJWT(JWT_ALGORITHM, this.configService.getItem('JWT_SECRET'), { email: user.email, id: user.id });
+    this.logger.debug(String(userToken));
+    this.ok(res, fillDTO(LoggedUserResponse, { email: user.email, authToken: userToken }));
   }
 
   public async avatarUpload(req: Request, res: Response) {

@@ -8,6 +8,7 @@ import { MongoDBInterface } from '../common/database-client/mongo-db.interface.j
 import { getMongoURI } from '../common/database-client/db-uri.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
+import { AuthenticateMiddleware } from '../common/middlewares/auth.middleware.js';
 
 @injectable()
 export default class RESTApplication {
@@ -38,6 +39,8 @@ export default class RESTApplication {
       '/upload',
       express.static(this.configItem.getItem('UPLOAD_DIRECTORY'))
     );
+    const authenticateMiddleware = new AuthenticateMiddleware(this.configItem.getItem('JWT_SECRET'));
+    this.expressInstance.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   public initExceptionFilters() {
