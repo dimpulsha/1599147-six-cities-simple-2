@@ -1,8 +1,7 @@
-import {IsArray, IsEnum, IsInt, IsMongoId, Max, Min, IsBoolean, Length,IsOptional, IsNumber, IsString, ArrayMinSize, ArrayMaxSize, ValidateNested  } from 'class-validator';
+import {IsArray, IsEnum, IsInt, IsMongoId, Max, Min, IsBoolean, Length,IsOptional, IsNumber, ArrayMinSize, ArrayMaxSize, ValidateNested  } from 'class-validator';
 import { Location as LocationType } from '../../../types/location.type.js';
 import { Type } from 'class-transformer';
 import { RoomType } from '../../../types/room-type.enum.js';
-import { Feature as FeatureType} from '../../../types/feature.type.js';
 
 class Location implements LocationType {
   @IsNumber({}, {message: 'latitude is required'})
@@ -10,11 +9,6 @@ class Location implements LocationType {
 
   @IsNumber({}, {message: 'longitude is required'})
   public longitude!: number;
-}
-
-class Feature implements FeatureType {
-  @IsString({message: 'Feature name is required'})
-  public name!: string;
 }
 
 export default class UpdateOfferDTO {
@@ -51,13 +45,13 @@ export default class UpdateOfferDTO {
   @IsOptional()
   @IsInt({message: 'Rooms quantity must be an integer'})
   @Min(1, {message: 'Minimum 1 room'})
-  @Max(1, {message: 'Maximum 8 rooms'})
+  @Max(8, {message: 'Maximum 8 rooms'})
   public roomsCount?: number;
 
   @IsOptional()
   @IsInt({message: 'Guests quantity must be an integer'})
   @Min(1, {message: 'Minimum 1 guest'})
-  @Max(1, {message: 'Maximum 10 guests'})
+  @Max(10, {message: 'Maximum 10 guests'})
   public guestsCount?: number;
 
   @IsOptional()
@@ -68,12 +62,10 @@ export default class UpdateOfferDTO {
 
   @IsOptional()
   @IsArray({message: 'Features list must be an Array of images'})
-  @ValidateNested()
-  @Type(() => Feature)
-  public features!: Feature[];
+  public features?: string[];
 
   @IsOptional()
   @ValidateNested()
   @Type(() => Location)
-  public offerLocation!: Location;
+  public offerLocation?: Location;
 }

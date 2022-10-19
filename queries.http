@@ -41,8 +41,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6I
     "guestsCount": 1,
     "price": 79046,
     "features": [
-      "634956ecb77cdd1ddeab32da",
-      "634956ecb77cdd1ddeab0000"
+      "634956ecb77cdd1ddeab32da"
       ],
     "offerLocation": {
         "latitude": 52.369793,
@@ -51,15 +50,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6I
 }
 ###
 ## Изменить предложение
-  PATCH  http://localhost:4390/offer/634732f4a0a9a1c459717294  HTTP/1.1
+  PATCH  http://localhost:4390/offer/6350592eae85dce8e1a91a44  HTTP/1.1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
 
 {
   "offerTitle": "Offer-300 Beautiful & luxurious studio at great location",
   "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
     "roomsCount": 5,
     "guestsCount": 3,
-    "price": 79988
+    "price": 79988,
+    "features": [
+      "634956ecb77cdd1ddeab32da"
+      ]
 }
 ###
 ## Удалить предложение

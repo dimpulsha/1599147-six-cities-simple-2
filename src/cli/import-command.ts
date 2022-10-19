@@ -20,9 +20,6 @@ import OfferDBService from '../modules/offer/offer-service.js';
 import { CitiesDBServiceInterface } from '../modules/cities/cities-service.interface.js';
 import { CityModel } from '../modules/cities/cities.entity.js';
 import CitiesDBService from '../modules/cities/cities.service.js';
-import { CommentsDBServiceInterface } from '../modules/comments/comments-service.interface.js';
-import { CommentsModel } from '../modules/comments/comments.entity.js';
-import CommentsDBService from '../modules/comments/comments-service.js';
 
 import { Offer } from '../types/offer.type.js';
 
@@ -36,7 +33,6 @@ export default class ImportCommand implements CliCommandInterface{
   private featureService!: FeatureDBServiceInterface;
   private offerService!: OfferDBServiceInterface;
   private databaseService!: MongoDBInterface;
-  private commentsService!: CommentsDBServiceInterface;
   private cityService!: CitiesDBServiceInterface;
   private logger!: LoggerInterface;
   private salt!: string;
@@ -46,8 +42,7 @@ export default class ImportCommand implements CliCommandInterface{
     this.onComplete = this.onComplete.bind(this);
 
     this.logger = new ConsoleLoggerService();
-    this.commentsService = new CommentsDBService(this.logger, CommentsModel);
-    this.offerService = new OfferDBService(OfferModel, this.logger, this.commentsService);
+    this.offerService = new OfferDBService(OfferModel, this.logger);
     this.featureService = new FeatureDBService(FeatureModel, this.logger,);
     this.userService = new UserDBService(this.logger, UserModel);
     this.cityService = new CitiesDBService(this.logger, CityModel);

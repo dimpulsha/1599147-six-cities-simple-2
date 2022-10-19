@@ -10,6 +10,10 @@ import { OfferDBServiceInterface } from './offer-service.interface.js';
 import UpdateOfferDTO from './dto/update-offer.dto.js';
 import { SortKind } from '../../types/sort-kind.enum.js';
 import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
+import { CitiesDBServiceInterface } from '../cities/cities-service.interface.js';
+import { FeatureDBServiceInterface } from '../features/feature-service.interface.js';
+import HttpError from '../../common/errors/http.errors.js';
+import { StatusCodes } from 'http-status-codes';
 
 @injectable()
 export default class OfferDBService implements OfferDBServiceInterface {
@@ -17,10 +21,45 @@ export default class OfferDBService implements OfferDBServiceInterface {
   constructor(
     @inject(RESTAppComponent.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
     @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
-    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly commentsService: CommentsDBServiceInterface
+    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly commentsService?: CommentsDBServiceInterface,
+    @inject(RESTAppComponent.CitiesDBServiceInterface) private readonly cityService?: CitiesDBServiceInterface,
+    @inject(RESTAppComponent.FeatureDBServiceInterface) private readonly featureService?:FeatureDBServiceInterface
   ) { }
 
+
+  private async checkRelatedCity(cityId: string): Promise<void> {
+    if (! await this.cityService?.getById(cityId)) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        `City Id = ${cityId} not found in database.`,
+        'ValidationRelatedDocument'
+      );
+    }
+  }
+
+  private async checkRelatedFeatures(featureId: string): Promise<void> {
+    if (!await this.featureService?.getById(featureId)) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        `Feature Id = ${featureId} not found in database.`,
+        'ValidationRelatedDocument'
+      );
+    }
+  }
+
+  private async checkOfferRelations(offerDTO: CreateOfferDTO | UpdateOfferDTO): Promise<void> {
+    if (offerDTO.cityId) {
+      await this.checkRelatedCity(offerDTO.cityId);
+    }
+    if (offerDTO.features && offerDTO.features.length > 0)
+    {
+      for (let i = 0; i < offerDTO.features.length; i++) {
+        await this.checkRelatedFeatures(offerDTO.features[i]);
+      }}
+  }
+
   public async create(offerDTO: CreateOfferDTO): Promise<DocumentType<OfferEntity>> {
+    await this.checkOfferRelations(offerDTO);
     const createResult = await this.offerModel.create(offerDTO);
     this.logger.info(`New offer created ${offerDTO.offerTitle}`);
     return createResult;
@@ -42,13 +81,14 @@ export default class OfferDBService implements OfferDBServiceInterface {
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     const result = await this.offerModel.findByIdAndDelete(offerId).exec();
     if (result) {
-      this.commentsService.deleteByOfferId(offerId);
+      this.commentsService?.deleteByOfferId(offerId);
       this.logger.info(`Delete offer ${offerId}`);
     }
     return result;
   }
 
   public async updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null> {
+    await this.checkOfferRelations(updateOfferDTO);
     this.logger.info(`Update offer ${offerId}`);
     return this.offerModel.findByIdAndUpdate(offerId, updateOfferDTO, {new:true}).exec();
   }

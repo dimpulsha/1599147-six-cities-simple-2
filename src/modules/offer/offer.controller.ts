@@ -66,7 +66,8 @@ export default class OfferController extends Controller {
   public async update({ body, params }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
     const { offerId } = params;
     const result = await this.offerService.updateById(offerId, body);
-    this.ok(res, fillDTO(OfferItemResponse, result));
+    const offer = await this.offerService.getById(result?.id);
+    this.ok(res, fillDTO(OfferItemResponse, offer));
   }
 
   public async deleteItem({ params }: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response): Promise<void> {
