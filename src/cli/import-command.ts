@@ -63,9 +63,11 @@ export default class ImportCommand implements CliCommandInterface{
 
     const city = await this.cityService.findOrCreate({ ...offer.city});
 
-    for (const {name} of offer.features) {
-      const existCategory = await this.featureService.findOrCreate(name, {name});
-      features.push(existCategory.id);
+    for (const { name } of offer.features) {
+      if (name) {
+        const existFeature = await this.featureService.findOrCreate(name, { name });
+        features.push(existFeature.id);
+      }
     }
 
     await this.offerService.create({
