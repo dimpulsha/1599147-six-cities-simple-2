@@ -5,6 +5,7 @@ import { UserEntity } from '../user/user.entity.js';
 import { FeatureEntity } from '../features/feature.entity.js';
 import { CityEntity } from '../cities/cities.entity.js';
 import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount } from '../../app.config.js';
+// import { Dayjs } from 'dayjs';
 
 const { prop, modelOptions } = typegoose;
 
@@ -23,7 +24,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({required: true, minlength: OfferDescription.Min, maxlength: OfferDescription.Max,})
   public offerDescription!: string;
 
-  @prop({ required: true })
+  @prop({ required: true, default: () => Date() })
   public publicationDate!: Date;
 
   @prop({

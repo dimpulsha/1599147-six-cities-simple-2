@@ -17,7 +17,10 @@ import { CommentsDBServiceInterface } from '../comments/comments-service.interfa
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exist.middleware.js';
-import {PrivateRouteMiddleware} from '../../common/middlewares/private-route.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
+import { StatusCodes } from 'http-status-codes';
+import HttpError from '../../common/errors/http.errors.js';
+
 
 type ParamsGetOffer = {
    offerId: string;
@@ -50,7 +53,6 @@ export default class OfferController extends Controller {
   }
 
   public async create(req: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDTO>, res: Response): Promise<void>  {
-    // this.logger.debug(JSON.stringify(req));
     const { body, user } = req;
     const result = await this.offerService.create({ ...body, ownerId: user.id });
     const offer = await this.offerService.getById(result.id);
@@ -63,11 +65,21 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferItemResponse, result));
   }
 
-  public async update({ body, params }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
+  public async update({ body, params, user }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
     const { offerId } = params;
+    const offer = await this.offerService.getById(offerId);
+    if (!(String(offer?.ownerId) === user.id)) {
+      throw new HttpError(
+        StatusCodes.BAD_REQUEST,
+        'Offer created by another user',
+        'OfferController',
+      );
+    }
+
+
     const result = await this.offerService.updateById(offerId, body);
-    const offer = await this.offerService.getById(result?.id);
-    this.ok(res, fillDTO(OfferItemResponse, offer));
+    const offerResult = await this.offerService.getById(result?.id);
+    this.ok(res, fillDTO(OfferItemResponse, offerResult));
   }
 
   public async deleteItem({ params }: Request<core.ParamsDictionary | ParamsGetOffer>, res: Response): Promise<void> {

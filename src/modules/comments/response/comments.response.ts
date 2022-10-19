@@ -6,10 +6,13 @@ export default class CommentsResponse {
   public id!: string;
 
   @Expose()
-  public commentsText!: string;
+  public commentText!: string;
 
   @Expose()
   public rate!: number;
+
+  @Expose()
+  public publicationDate!: Date;
 
   @Expose()
   public offerId!: string;

@@ -21,8 +21,8 @@ export default class CreateOfferDTO {
   @Length(1, 1024, {message: 'Offer description length must be from 1 to 1024 characters'})
   public offerDescription!: string;
 
-  @IsDateString({ message: 'Publication date must be valid ISO date' })
-  public publicationDate!: Date;
+  // @IsDateString({ message: 'Publication date must be valid ISO date' })
+  // public publicationDate!: Date;
 
   // todo - проверку на существование в БД
   @IsString({message: 'City is required'})

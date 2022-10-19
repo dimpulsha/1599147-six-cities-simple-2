@@ -17,9 +17,8 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
   ) { }
 
   public async create(commentsDTO: CreateCommentDTO): Promise<DocumentType<CommentsEntity>> {
-
     const createResult = await this.commentsModel.create(commentsDTO);
-    this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created`);
+    this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created. text: ${commentsDTO.commentText}`);
     return createResult.populate('ownerId');
   }
 

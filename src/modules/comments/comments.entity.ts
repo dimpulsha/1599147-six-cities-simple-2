@@ -14,11 +14,14 @@ export interface CommentsEntity extends defaultClasses.Base { }
 
 export class CommentsEntity extends defaultClasses.TimeStamps {
 
-  @prop({ require: true, minlength: 5, maxlength: 1024 })
-  public commentsText!: string;
+  @prop({ require: true })
+  public commentText!: string;
 
-  @prop({required: true, min: 1, max: 5})
+  @prop({required: true})
   public rate!: number;
+
+  @prop({ required: true, default: () => Date() })
+  public publicationDate!: Date;
 
   @prop({ ref: OfferEntity, required: true})
   public offerId!: Ref<OfferEntity>;
