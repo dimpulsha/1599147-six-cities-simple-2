@@ -9,6 +9,7 @@ import { getMongoURI } from '../common/database-client/db-uri.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 import { AuthenticateMiddleware } from '../common/middlewares/auth.middleware.js';
+import { getFullServerPath } from '../utils/common-utils.js';
 
 @injectable()
 export default class RESTApplication {
@@ -39,6 +40,10 @@ export default class RESTApplication {
       '/upload',
       express.static(this.configItem.getItem('UPLOAD_DIRECTORY'))
     );
+    this.expressInstance.use(
+      '/static',
+      express.static(this.configItem.getItem('STATIC_DIRECTORY'))
+    );
     const authenticateMiddleware = new AuthenticateMiddleware(this.configItem.getItem('JWT_SECRET'));
     this.expressInstance.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
@@ -67,7 +72,7 @@ export default class RESTApplication {
     this.initRoutes();
     this.initExceptionFilters();
     this.expressInstance.listen(this.configItem.getItem('PORT'));
-    this.logger.info(`Server started on http://localhost:${this.configItem.getItem('PORT')}`);
+    this.logger.info(`Server started on ${getFullServerPath(this.configItem.getItem('HOST'), this.configItem.getItem('PORT'))}`);
   }
 
 }

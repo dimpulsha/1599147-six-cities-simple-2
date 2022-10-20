@@ -1,4 +1,4 @@
-import {IsArray, IsDateString, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsNumber, ValidateNested} from 'class-validator';
+import {IsArray, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsNumber, ValidateNested} from 'class-validator';
 import { Location as LocationType} from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
 import { Type } from 'class-transformer';
@@ -21,10 +21,6 @@ export default class CreateOfferDTO {
   @Length(1, 1024, {message: 'Offer description length must be from 1 to 1024 characters'})
   public offerDescription!: string;
 
-  // @IsDateString({ message: 'Publication date must be valid ISO date' })
-  // public publicationDate!: Date;
-
-  // todo - проверку на существование в БД
   @IsString({message: 'City is required'})
   @IsMongoId({ message: 'City must by valid MongoDB ID'})
   public cityId!: string;
@@ -61,7 +57,6 @@ export default class CreateOfferDTO {
   @Max(100000, {message: 'Maximum price is 100 000'})
   public price!: number;
 
-  // todo - проверку на существование в БД
   @IsArray({ message: 'Features list must be an Array of images' })
   @IsMongoId({each: true, message: 'Features must by valid MongoDB ID'})
   public features!: string[];

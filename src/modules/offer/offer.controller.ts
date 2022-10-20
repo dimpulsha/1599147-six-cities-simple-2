@@ -6,6 +6,8 @@ import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { OfferDBServiceInterface } from './offer-service.interface.js';
+import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 import OfferListResponse from './response/offer-list.response.js';
 import { fillDTO } from '../../utils/common-utils.js';
 import CreateOfferDTO from './dto/create-offer.dto.js';
@@ -13,7 +15,6 @@ import UpdateOfferDTO from './dto/update-offer.dto.js';
 import OfferItemResponse from './response/offer.response.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import CommentsResponse from '../comments/response/comments.response.js';
-import { CommentsDBServiceInterface } from '../comments/comments-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exist.middleware.js';
@@ -30,10 +31,12 @@ type ParamsGetOffer = {
 export default class OfferController extends Controller {
   constructor(
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
+    @inject(RESTAppComponent.ConfigInterface) readonly configService: ConfigInterface,
     @inject(RESTAppComponent.CommentsDBServiceInterface) readonly commentsService: CommentsDBServiceInterface,
     @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offerService: OfferDBServiceInterface,
   ) {
-    super(logger);
+
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController…');
 
@@ -75,7 +78,6 @@ export default class OfferController extends Controller {
         'OfferController',
       );
     }
-
 
     const result = await this.offerService.updateById(offerId, body);
     const offerResult = await this.offerService.getById(result?.id);

@@ -1,6 +1,6 @@
 export const DEFAULT_OFFER_COUNT = 60;
 export const DEFAULT_COMMENTS_COUNT = 50;
-export const DEFAULT_AVATAR = 'default.jpg';
+export const DEFAULT_AVATAR = 'default-avatar.svg';
 export const JWT_ALGORITHM = 'HS256';
 export enum OfferTitle {
   Min = 10,
@@ -27,3 +27,13 @@ export enum UserName {
   Max = 15
 }
 
+export const DEFAULT_STATIC_IMAGES = [
+  'default-avatar.jpg',
+  'default-avatar.svg',
+];
+
+export const STATIC_RESOURCE_FIELDS = [
+  'avatarImg',
+  'previewImg',
+  'offerImg'
+];

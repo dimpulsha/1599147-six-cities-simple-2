@@ -1,14 +1,13 @@
 import {Request, Response} from 'express';
 import { inject, injectable } from 'inversify';
-// import { StatusCodes } from 'http-status-codes';
 import * as core from 'express-serve-static-core';
 import {Controller} from '../../common/controller/controller.js';
 import {RESTAppComponent} from '../../types/component.types.js';
 import {LoggerInterface} from '../../common/logger/logger.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
-// import HttpError from '../../common/errors/http.errors.js';
 import { CommentsDBServiceInterface } from './comments-service.interface.js';
 import { OfferDBServiceInterface } from '../offer/offer-service.interface.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 import { fillDTO } from '../../utils/common-utils.js';
 import CommentsResponse from './response/comments.response.js';
 import CreateCommentsDTO from './dto/create-comments.dto.js';
@@ -26,10 +25,11 @@ export default class CommentsController extends Controller {
 
   constructor(
     @inject(RESTAppComponent.LoggerInterface) readonly logger: LoggerInterface,
+    @inject(RESTAppComponent.ConfigInterface) readonly configService: ConfigInterface,
     @inject(RESTAppComponent.CommentsDBServiceInterface) readonly commentsService: CommentsDBServiceInterface,
     @inject(RESTAppComponent.OfferDBServiceInterface) readonly offerService: OfferDBServiceInterface
   ) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for Commentsontroller…');
     this.addRoute({
