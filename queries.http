@@ -75,9 +75,10 @@ Content-Type: application/json
 
 {
   "userName": "Fill",
-  "email": "4@fill.com",
+  "email": "7@fill.com",
   "password": "123456",
-  "isProUser": true
+  "isProUser": true,
+  "avatarImg": "123456.jpg"
 }
 ###
 ## Логин
@@ -85,14 +86,14 @@ POST http://localhost:4390/user HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "4@fill.com",
+  "email": "7@fill.com",
   "password": "123456"
 }
 ###
 ## Проверить пользователя
 GET http://localhost:4390/user HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjdAZmlsbC5jb20iLCJpZCI6IjYzNTFiNzMwMjk1MGRkOGM5MGM1MWNmOCIsImlhdCI6MTY2NjI5OTkwOSwiZXhwIjoxNjY2NDcyNzA5fQ.VIU6s7BN7RXhjZT8qPmNnJlA0cbjUdKMFHvw0WmA8pE
 
 ###
 ## Отправка аватарки пользователю

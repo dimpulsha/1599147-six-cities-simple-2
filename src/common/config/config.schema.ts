@@ -64,13 +64,13 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Path to upload image',
     format: String,
     env: 'REST_UPLOAD_DIRECTORY',
-    default: './upload-img'
+    default: 'upload-img'
   },
   STATIC_DIRECTORY: {
     doc: 'Path to static image',
     format: String,
     env: 'REST_STATIC_DIRECTORY',
-    default: './static'
+    default: 'static'
   },
   SALT: {
     doc: 'Random value for security',

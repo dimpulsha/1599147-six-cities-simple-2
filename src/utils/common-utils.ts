@@ -5,7 +5,7 @@ import { ValidationError } from 'class-validator';
 import { ValidationErrorInfo } from '../types/validation-error-info.type';
 import { ServiceError } from '../types/service-error.enum';
 import { UnknownObject } from '../types/unknown-object.type.js';
-import { DEFAULT_STATIC_IMAGES } from '../app.config';
+import { DEFAULT_STATIC_IMAGES } from '../app.config.js';
 
 export const getErrorMessage = (error: unknown): string => error instanceof Error ? error.message : '';
 

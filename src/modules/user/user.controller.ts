@@ -25,7 +25,7 @@ export default class UserController extends Controller {
   constructor(
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
     @inject(RESTAppComponent.UserDBServiceInterface) private readonly userService: UserDBServiceInterface,
-    @inject(RESTAppComponent.ConfigInterface) private readonly configService: ConfigInterface
+    @inject(RESTAppComponent.ConfigInterface)  readonly configService: ConfigInterface
 
   ) {
     super(logger, configService);
