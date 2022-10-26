@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import express, {Express} from 'express';
+import express, { Express } from 'express';
+import cors from 'cors';
 import { RESTAppComponent } from '../types/component.types.js';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
 import { ConfigInterface } from '../common/config/config.interface.js';
@@ -37,7 +38,7 @@ export default class RESTApplication {
   public initMiddleware() {
     this.expressInstance.use(express.json());
     this.expressInstance.use(
-      '/upload',
+      '/upload-img',
       express.static(this.configItem.getItem('UPLOAD_DIRECTORY'))
     );
     this.expressInstance.use(
@@ -46,6 +47,7 @@ export default class RESTApplication {
     );
     const authenticateMiddleware = new AuthenticateMiddleware(this.configItem.getItem('JWT_SECRET'));
     this.expressInstance.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.expressInstance.use(cors());
   }
 
   public initExceptionFilters() {

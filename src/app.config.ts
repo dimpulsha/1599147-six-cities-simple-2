@@ -27,6 +27,11 @@ export enum UserName {
   Max = 15
 }
 
+export enum OfferImagesCount {
+  Min = 6,
+  Max = 6
+}
+
 export const DEFAULT_STATIC_IMAGES = [
   'default-avatar.jpg',
   'default-avatar.svg',
