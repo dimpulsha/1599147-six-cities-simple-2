@@ -12,4 +12,5 @@ export interface OfferDBServiceInterface extends DocumentExistsInterface {
   updateById(offerId: string, updateOfferDTO: UpdateOfferDTO): Promise<DocumentType<OfferEntity> | null>;
   exists(offerId: string): Promise<boolean>;
   commentInfoUpdate(offerId: string): Promise<void>;
+  checkOwner(offerId: string, userId: string): Promise<boolean>;
 }

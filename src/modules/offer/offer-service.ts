@@ -107,4 +107,12 @@ export default class OfferDBService implements OfferDBServiceInterface {
     }
   }
 
+  public async checkOwner(offerId: string, userId:string): Promise<boolean> {
+    const offer = await this.getById(offerId);
+    if (offer) {
+      return (String(offer?.ownerId) === userId);
+    }
+    return false;
+  }
+
 }

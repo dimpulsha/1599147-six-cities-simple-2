@@ -19,9 +19,7 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exist.middleware.js';
 import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
-import { StatusCodes } from 'http-status-codes';
-import HttpError from '../../common/errors/http.errors.js';
-
+import { ValidateOwnerMiddleware } from '../../common/middlewares/validate-owner.middleware.js';
 
 type ParamsGetOffer = {
    offerId: string;
@@ -41,11 +39,39 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController…');
 
     this.addRoute({path: '/', method: HttpMethod.Get, handler: this.index});
-    this.addRoute({path: '/', method: HttpMethod.Post, handler: this.create, middlewares: [new PrivateRouteMiddleware, new ValidateDtoMiddleware(CreateOfferDTO)]});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Get, handler: this.getItem, middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Patch, handler: this.update, middlewares: [new PrivateRouteMiddleware, new ValidateObjectIdMiddleware('offerId'), new ValidateDtoMiddleware(UpdateOfferDTO), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]});
-    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem, middlewares: [new PrivateRouteMiddleware, new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]});
-    this.addRoute({path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList, middlewares: [new ValidateObjectIdMiddleware('offerId'), new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]});
+    this.addRoute({
+      path: '/', method: HttpMethod.Post, handler: this.create,
+      middlewares:
+        [new PrivateRouteMiddleware,
+          new ValidateDtoMiddleware(CreateOfferDTO)]
+    });
+    this.addRoute({
+      path: '/:offerId', method: HttpMethod.Get, handler: this.getItem,
+      middlewares: [new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId', method: HttpMethod.Patch, handler: this.update,
+      middlewares:
+        [new PrivateRouteMiddleware,
+          new ValidateDtoMiddleware(UpdateOfferDTO),
+          new ValidateObjectIdMiddleware('offerId'),
+          new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+          new ValidateOwnerMiddleware(this.offerService, 'Offer')]
+    });
+    this.addRoute({
+      path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem,
+      middlewares: [new PrivateRouteMiddleware,
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+        new ValidateOwnerMiddleware(this.offerService, 'Offer')]
+    });
+    this.addRoute({
+      path: '/comments/:offerId', method: HttpMethod.Get, handler: this.getCommentsList,
+      middlewares:
+        [new ValidateObjectIdMiddleware('offerId'),
+          new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')]
+    });
   }
 
   public async index({ query }: Request<Record<string, unknown>, Record<string, unknown>,  RequestQuery>, res: Response): Promise<void> {
@@ -68,17 +94,8 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OfferItemResponse, result));
   }
 
-  public async update({ body, params, user }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
+  public async update({ body, params }: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDTO>, res: Response): Promise<void> {
     const { offerId } = params;
-    const offer = await this.offerService.getById(offerId);
-    if (!(String(offer?.ownerId) === user.id)) {
-      throw new HttpError(
-        StatusCodes.BAD_REQUEST,
-        'Offer created by another user',
-        'OfferController',
-      );
-    }
-
     const result = await this.offerService.updateById(offerId, body);
     const offerResult = await this.offerService.getById(result?.id);
     this.ok(res, fillDTO(OfferItemResponse, offerResult));
