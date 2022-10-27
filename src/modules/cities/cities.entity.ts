@@ -15,10 +15,10 @@ export class CityEntity extends defaultClasses.TimeStamps implements City {
 @prop({required: true, trim: true, unique: true})
   public name!: string;
 
-@prop({required: true, trim: true})
+@prop({required: true})
 public latitude!: number;
 
-@prop({required: true, trim: true})
+@prop({required: true})
 public longitude!: number;
 }
 
