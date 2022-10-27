@@ -25,7 +25,6 @@ export class ConfigService implements ConfigInterface {
     this.config = configSchema.getProperties();
     this.logger.info('.env file found and successfully parsed!');
     this.logger.debug(JSON.stringify(this.config));
-
   }
 
   getItem<T extends keyof ConfigSchema>(key: T) {

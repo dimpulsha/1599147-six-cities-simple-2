@@ -7,6 +7,7 @@ import CreateCommentDTO from './dto/create-comments.dto.js';
 import { CommentsEntity } from './comments.entity.js';
 import { CommentsDBServiceInterface } from './comments-service.interface.js';
 import { DEFAULT_COMMENTS_COUNT } from '../../app.config.js';
+import { SortKind } from '../../types/sort-kind.enum.js';
 
 @injectable()
 export default class CommentsDBService implements CommentsDBServiceInterface {
@@ -17,9 +18,8 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
   ) { }
 
   public async create(commentsDTO: CreateCommentDTO): Promise<DocumentType<CommentsEntity>> {
-
     const createResult = await this.commentsModel.create(commentsDTO);
-    this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created`);
+    this.logger.info(`Comments from user ${commentsDTO.ownerId}  to offer ${commentsDTO.offerId} created. text: ${commentsDTO.commentText}`);
     return createResult.populate('ownerId');
   }
 
@@ -28,7 +28,7 @@ export default class CommentsDBService implements CommentsDBServiceInterface {
     if (count) {
       recordLimit = count;
     }
-    const getByOfferResult = await this.commentsModel.find({ offerId }).limit(recordLimit).populate('ownerId');
+    const getByOfferResult = await this.commentsModel.find({ offerId }).sort({ publicationDate: SortKind.Down }).limit(recordLimit).populate('ownerId');
     this.logger.debug(`Present comments for offer ${offerId}`);
     return getByOfferResult;
   }

@@ -7,4 +7,5 @@ export interface CitiesDBServiceInterface {
   getByName(cityName: string): Promise<DocumentType<CityEntity> | null>;
   getById(cityId: string): Promise<DocumentType<CityEntity> | null>;
   findOrCreate(cityDTO: CreateFeatureDTO): Promise<DocumentType<CityEntity>>;
+  getIdByName(cityId: string): Promise<string | null>;
 }

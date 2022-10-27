@@ -6,10 +6,9 @@ import HelpCommand from './cli/help-command.js';
 import CLIApplication from './app/cli-application.js';
 import ImportCommand from './cli/import-command.js';
 import GenerateCommand from './cli/generate-command.js';
-import CommentCommand from './cli/comments-command.js';
 
 const myManager = new CLIApplication();
 myManager.registerCommands([
-  new HelpCommand, new VersionCommand,  new ImportCommand, new GenerateCommand, new CommentCommand
+  new HelpCommand, new VersionCommand,  new ImportCommand, new GenerateCommand
 ]);
 myManager.processCommand(process.argv);

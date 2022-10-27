@@ -34,4 +34,12 @@ export default class CitiesDBService implements CitiesDBServiceInterface {
     if (existCity) { return existCity; }
     return this.create(cityDTO);
   }
+
+  public async getIdByName(cityName: string): Promise<string | null> {
+    const result = await this.getByName(cityName);
+    if (!result) {
+      return null;
+    }
+    return (String(result?._id));
+  }
 }

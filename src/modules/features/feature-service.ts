@@ -35,5 +35,11 @@ export default class FeatureDBService implements FeatureDBServiceInterface {
     return this.create(featureDTO);
   }
 
+  public async getIdByName(featureName: string): Promise<string | null> {
+    const result = await this.getByName(featureName);
+    if (result) { return (String(result._id)); }
+    return null;
+  }
+
 }
 

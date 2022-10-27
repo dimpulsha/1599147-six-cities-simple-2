@@ -4,6 +4,7 @@ import validator from 'convict-format-with-validator';
 convict.addFormats(validator);
 
 export type ConfigSchema = {
+  HOST: string;
   PORT: number;
   DATABASE_URL: string;
   DATABASE_PORT: number;
@@ -11,16 +12,23 @@ export type ConfigSchema = {
   DATABASE_USER: string;
   DATABASE_PWD: string;
   UPLOAD_DIRECTORY: string;
+  STATIC_DIRECTORY: string;
   SALT: string;
   JWT_SECRET: string,
  }
 
 export const configSchema = convict<ConfigSchema>({
+  HOST: {
+    doc: 'Application server host',
+    format: String,
+    env: 'REST_HOST',
+    default: 'localhost'
+  },
   PORT: {
     doc: 'Port for incoming connections',
     format: 'port',
     env: 'REST_PORT',
-    default: 4900
+    default: null
   },
   DATABASE_URL: {
     doc: 'IP address for database connections',
@@ -32,7 +40,7 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Port for database connections',
     format: 'port',
     env: 'REST_DATABASE_PORT',
-    default: 4900
+    default: null
   },
   DATABASE_NAME: {
     doc: 'Database name',
@@ -56,7 +64,13 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Path to upload image',
     format: String,
     env: 'REST_UPLOAD_DIRECTORY',
-    default: './upload-img'
+    default: 'upload-img'
+  },
+  STATIC_DIRECTORY: {
+    doc: 'Path to static image',
+    format: String,
+    env: 'REST_STATIC_DIRECTORY',
+    default: 'static'
   },
   SALT: {
     doc: 'Random value for security',

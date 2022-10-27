@@ -7,4 +7,5 @@ export interface FeatureDBServiceInterface {
   getByName(featureName: string): Promise<DocumentType<FeatureEntity> | null>;
   getById(featureId: string): Promise<DocumentType<FeatureEntity> | null>;
   findOrCreate(featureName: string, featureDTO: CreateFeatureDTO): Promise<DocumentType<FeatureEntity>>;
+  getIdByName(featureName: string): Promise<string | null>;
 }

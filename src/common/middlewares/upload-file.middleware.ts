@@ -2,7 +2,8 @@ import {NextFunction, Request, Response} from 'express';
 import {nanoid} from 'nanoid';
 import multer, {diskStorage} from 'multer';
 import mime from 'mime';
-import {MiddlewareInterface} from '../../types/middleware.interface.js';
+import { MiddlewareInterface } from '../../types/middleware.interface.js';
+import { IMAGE_EXTENSIONS } from '../../app.config.js';
 
 export class UploadFileMiddleware implements MiddlewareInterface {
 
@@ -16,8 +17,15 @@ export class UploadFileMiddleware implements MiddlewareInterface {
       destination: this.uploadDirectory,
       filename: (_req, file, callback) => {
         console.log(file.mimetype);
-        const extension = mime.extension(file.mimetype);
+        const extension = mime.extension(file.mimetype) ?? '';
         const filename = nanoid();
+        if (!IMAGE_EXTENSIONS.includes(extension)) {
+          return callback(
+            new Error(`Invalid file format. Only ${IMAGE_EXTENSIONS.toString} files are acceptable`),
+            `${filename}.${extension}`
+          );
+        }
+
         callback(null, `${filename}.${extension}`);
       }
     });
