@@ -1,7 +1,7 @@
 import {MiddlewareInterface} from '../../types/middleware.interface.js';
 import { NextFunction, Request, Response } from 'express';
 import * as core from 'express-serve-static-core';
-import { ValidateOwnerInterface } from '../../types/validate-owner.interface.js';
+import { ValidateOwnerInterface } from '../../types/validation-owner.interface.js';
 import HttpError from '../errors/http.errors.js';
 import { StatusCodes } from 'http-status-codes';
 

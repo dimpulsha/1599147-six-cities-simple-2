@@ -31,7 +31,7 @@ export default class OfferController extends Controller {
     @inject(RESTAppComponent.LoggerInterface) logger: LoggerInterface,
     @inject(RESTAppComponent.ConfigInterface) readonly configService: ConfigInterface,
     @inject(RESTAppComponent.CommentsDBServiceInterface) readonly commentsService: CommentsDBServiceInterface,
-    @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offerService: OfferDBServiceInterface,
+    @inject(RESTAppComponent.OfferDBServiceInterface) private readonly offerService: OfferDBServiceInterface
   ) {
 
     super(logger, configService);
@@ -57,7 +57,8 @@ export default class OfferController extends Controller {
           new ValidateDtoMiddleware(UpdateOfferDTO),
           new ValidateObjectIdMiddleware('offerId'),
           new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
-          new ValidateOwnerMiddleware(this.offerService, 'Offer')]
+          new ValidateOwnerMiddleware(this.offerService, 'Offer'),
+        ]
     });
     this.addRoute({
       path: '/:offerId', method: HttpMethod.Delete, handler: this.deleteItem,

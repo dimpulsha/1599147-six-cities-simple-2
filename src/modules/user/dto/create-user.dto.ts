@@ -1,9 +1,9 @@
-import {IsBoolean, IsEmail, Length} from 'class-validator';
-
+import { IsBoolean, IsEmail, Length } from 'class-validator';
+import { UserName, Password } from '../../../app.config.js';
 
 export default class CreateUserDto {
 
-  @Length(1, 15, {message: 'UserName length must be from 1 to 15 characters'})
+  @Length(UserName.Min, UserName.Max, {message: `UserName length must be from ${UserName.Min} to ${UserName.Max} characters`})
   public userName!: string;
 
   @IsEmail({}, {message:'Email must be valid e-mail address'})
@@ -11,7 +11,7 @@ export default class CreateUserDto {
 
   public avatarImg?: string;
 
-  @Length(1, 12, {message: 'Password length must be from 6 to 12 characters'})
+  @Length(Password.Min, Password.Max, {message: `Password length must be from ${Password.Min} to ${Password.Max} characters`})
   public password!: string;
 
   @IsBoolean({message: 'Pro User must be presented as boolean flag'})

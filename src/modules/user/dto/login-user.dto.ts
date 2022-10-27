@@ -1,10 +1,11 @@
-import {IsEmail, Length} from 'class-validator';
+import { IsEmail, Length } from 'class-validator';
+import { Password } from '../../../app.config.js';
 
 export default class LoginUserDto {
 
   @IsEmail({}, {message:'Email must be valid e-mail address'})
   public email!: string;
 
-  @Length(1, 12, {message: 'Password length must be from 6 to 12 characters'})
+  @Length(Password.Min, Password.Max, {message: `Password length must be from ${Password.Min} to ${Password.Max} characters`})
   public password!: string;
 }

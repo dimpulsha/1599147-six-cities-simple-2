@@ -27,34 +27,40 @@ export default class OfferDBService implements OfferDBServiceInterface {
   ) { }
 
 
-  private async checkRelatedCity(cityId: string): Promise<void> {
-    if (! await this.cityService?.getById(cityId)) {
+  private async checkRelatedCity(cityName: string): Promise<string> {
+    const result = await this.cityService?.getIdByName(cityName);
+    console.log(result);
+
+    if (!result) {
       throw new HttpError(
         StatusCodes.BAD_REQUEST,
-        `City Id = ${cityId} not found in database.`,
+        `City name = ${cityName} not found in database.`,
         'ValidationRelatedDocument'
       );
     }
+    return result;
   }
 
-  private async checkRelatedFeatures(featureId: string): Promise<void> {
-    if (!await this.featureService?.getById(featureId)) {
+  private async checkRelatedFeatures(featureName: string): Promise<string> {
+    const result = await this.featureService?.getIdByName(featureName);
+    if (!result) {
       throw new HttpError(
         StatusCodes.BAD_REQUEST,
-        `Feature Id = ${featureId} not found in database.`,
+        `Feature name = ${featureName} not found in database.`,
         'ValidationRelatedDocument'
       );
     }
+    return result;
   }
 
   private async checkOfferRelations(offerDTO: CreateOfferDTO | UpdateOfferDTO): Promise<void> {
     if (offerDTO.cityId) {
-      await this.checkRelatedCity(offerDTO.cityId);
+      offerDTO.cityId = await this.checkRelatedCity(offerDTO.cityId);
     }
     if (offerDTO.features && offerDTO.features.length > 0)
     {
       for (let i = 0; i < offerDTO.features.length; i++) {
-        await this.checkRelatedFeatures(offerDTO.features[i]);
+        offerDTO.features[i] = await this.checkRelatedFeatures(offerDTO.features[i]);
       }}
   }
 
@@ -110,7 +116,11 @@ export default class OfferDBService implements OfferDBServiceInterface {
   public async checkOwner(offerId: string, userId:string): Promise<boolean> {
     const offer = await this.getById(offerId);
     if (offer) {
-      return (String(offer?.ownerId) === userId);
+
+      console.log(offer?.ownerId?.id);
+      console.log(userId);
+
+      return (offer?.ownerId?.id === userId);
     }
     return false;
   }

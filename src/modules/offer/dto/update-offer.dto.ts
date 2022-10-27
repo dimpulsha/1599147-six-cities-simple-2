@@ -1,7 +1,8 @@
-import {IsArray, IsEnum, IsInt, IsMongoId, Max, Min, IsBoolean, Length,IsOptional, IsNumber, ArrayMinSize, ArrayMaxSize, ValidateNested  } from 'class-validator';
+import {IsArray, IsEnum, IsInt, Max, Min, IsBoolean, Length,IsOptional, IsNumber, ArrayMinSize, ArrayMaxSize, ValidateNested  } from 'class-validator';
 import { Location as LocationType } from '../../../types/location.type.js';
 import { Type } from 'class-transformer';
 import { RoomType } from '../../../types/room-type.enum.js';
+import { GuestsCount, OfferTitle, OfferDescription, Price, RoomsCount, OfferImagesCount } from '../../../app.config.js';
 
 class Location implements LocationType {
   @IsNumber({}, {message: 'latitude is required'})
@@ -14,15 +15,14 @@ class Location implements LocationType {
 export default class UpdateOfferDTO {
 
   @IsOptional()
-  @Length(1, 100, {message: 'Offer title length must be from 1 to 100 characters'})
+  @Length(OfferTitle.Min, OfferTitle.Max, { message: `Offer title length must be from ${OfferTitle.Min} to ${OfferTitle.Max} characters` })
   public offerTitle?: string;
 
   @IsOptional()
-  @Length(1, 1024, { message: 'Offer description length must be from 1 to 1024 characters' })
+  @Length(OfferDescription.Min, OfferDescription.Max, {message: `Offer description length must be from ${OfferDescription.Min} to ${OfferDescription.Max} characters`})
   public offerDescription?: string;
 
   @IsOptional()
-  @IsMongoId({ message: 'City must by valid MongoDB ID' })
   public cityId?: string;
 
   @IsOptional()
@@ -30,8 +30,8 @@ export default class UpdateOfferDTO {
 
   @IsOptional()
   @IsArray({ message: 'Offer image list must be an Array of images' })
-  @ArrayMinSize(6, {message: 'offerImages must contain 6 items'})
-  @ArrayMaxSize(6, {message: 'offerImages must contain 6 items'})
+  @ArrayMinSize(OfferImagesCount.Min, {message: `offerImages must contain minimum ${OfferImagesCount.Min}items`})
+  @ArrayMaxSize(OfferImagesCount.Max, {message: `offerImages must contain maximum ${OfferImagesCount.Max} items`})
   public offerImg?: string[];
 
   @IsOptional()
@@ -44,20 +44,20 @@ export default class UpdateOfferDTO {
 
   @IsOptional()
   @IsInt({message: 'Rooms quantity must be an integer'})
-  @Min(1, {message: 'Minimum 1 room'})
-  @Max(8, {message: 'Maximum 8 rooms'})
+  @Min(RoomsCount.Min, {message: `Minimum ${RoomsCount.Min} room`})
+  @Max(RoomsCount.Max, {message: `Maximum ${RoomsCount.Max} rooms`})
   public roomsCount?: number;
 
   @IsOptional()
   @IsInt({message: 'Guests quantity must be an integer'})
-  @Min(1, {message: 'Minimum 1 guest'})
-  @Max(10, {message: 'Maximum 10 guests'})
+  @Min(GuestsCount.Min, {message: `Minimum ${GuestsCount.Min}guest`})
+  @Max(GuestsCount.Max, {message: `Maximum ${GuestsCount.Max} guests`})
   public guestsCount?: number;
 
   @IsOptional()
   @IsInt({message: 'Price value must be an integer'})
-  @Min(100, {message: 'Minimum price is 100'})
-  @Max(100000, {message: 'Maximum price is 100 000'})
+  @Min(Price.Min, {message: `Minimum price is ${Price.Min}`})
+  @Max(Price.Max, {message: `Maximum price is ${Price.Max}`})
   public price?: number;
 
   @IsOptional()

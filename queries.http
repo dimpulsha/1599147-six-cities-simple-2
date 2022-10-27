@@ -19,20 +19,20 @@ Content-Type: application/json
 ## Создать предложение
   POST http://localhost:4390/offer HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6IjYzNGFmOTIyNWM5OTRlMjZmODA1YTdjYyIsImlhdCI6MTY2NjExNDYwMywiZXhwIjoxNjY2Mjg3NDAzfQ.RqWGe5BbpxQRTqqpA7_p1KyFEBWoNtBa9BAL9MtbC4U
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjdAZmlsbC5jb20iLCJpZCI6IjYzNTFiNzMwMjk1MGRkOGM5MGM1MWNmOCIsImlhdCI6MTY2NjgwNTYzMiwiZXhwIjoxNjY2OTc4NDMyfQ.vH369mAyXn9sGS0fg_eTtnqNxa_GOxh23pa9QSGv_QY
 
 {
   "offerTitle": "Offer-5 Beautiful & luxurious studio at great location",
   "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
-    "cityId": "634956ecb77cdd1ddeab32d7",
-    "previewImg": "offer-5-prew.img",
+    "cityId": "Paris",
+    "previewImg": "http://localhost:4390/static/studio-photos.jpg",
     "offerImg": [
-        "offer3-img1.img",
-        "offer5-img1.img",
-        "offer6-img1.img",
-        "offer7-img1.img",
-        "offer8-img1.img",
-        "offer9-img1.img"
+        "http://localhost:4390/static/apartment-01.jpg",
+        "http://localhost:4390/static/apartment-02.jpg",
+        "http://localhost:4390/static/apartment-03.jpg",
+        "http://localhost:4390/static/apartment-04.jpg",
+        "http://localhost:4390/static/apartment-05.jpg",
+        "http://localhost:4390/static/apartment-06.jpg"
     ],
     "isPremium": true,
     "offerType": "house",
@@ -40,7 +40,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6I
     "guestsCount": 1,
     "price": 79046,
     "features": [
-      "634956ecb77cdd1ddeab32da"
+      "Air conditioning"
       ],
     "offerLocation": {
         "latitude": 52.369793,
@@ -49,18 +49,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjNAZmlsbC5jb20iLCJpZCI6I
 }
 ###
 ## Изменить предложение
-  PATCH  http://localhost:4390/offer/6350592eae85dce8e1a91a44  HTTP/1.1
+  PATCH  http://localhost:4390/offer/63598810fe47f33d6549768f  HTTP/1.1
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjdAZmlsbC5jb20iLCJpZCI6IjYzNTFiNzMwMjk1MGRkOGM5MGM1MWNmOCIsImlhdCI6MTY2NjgwNTYzMiwiZXhwIjoxNjY2OTc4NDMyfQ.vH369mAyXn9sGS0fg_eTtnqNxa_GOxh23pa9QSGv_QY
 
 {
   "offerTitle": "Offer-300 Beautiful & luxurious studio at great location",
   "offerDescription": "Offer-6 A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam",
+  "cityId": "Amsterdam",
     "roomsCount": 5,
     "guestsCount": 3,
     "price": 79988,
     "features": [
-      "634956ecb77cdd1ddeab32da"
+      "Fridge",
+      "Air conditioning"
       ]
 }
 ###
@@ -76,7 +78,7 @@ Content-Type: application/json
 
 {
   "userName": "Fill",
-  "email": "8@fill.com",
+  "email": "12@fill.com",
   "password": "123456",
   "isProUser": true,
   "avatarImg": "zExy24tXqbA4iUIICGtaH.png"

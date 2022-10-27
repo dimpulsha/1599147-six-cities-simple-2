@@ -1,4 +1,4 @@
-import {IsArray, IsEnum, IsInt, IsMongoId, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsNumber, ValidateNested} from 'class-validator';
+import {IsArray, IsEnum, IsInt, Max,  Min, IsBoolean, Length, IsString, IsNotEmpty, ArrayMinSize, ArrayMaxSize, IsNumber, ValidateNested} from 'class-validator';
 import { Location as LocationType} from '../../../types/location.type.js';
 import { RoomType } from '../../../types/room-type.enum.js';
 import { Type } from 'class-transformer';
@@ -15,15 +15,14 @@ class Location implements LocationType {
 export default class CreateOfferDTO {
 
   @IsString({message: 'Offer title is required'})
-  @Length(OfferTitle.Min, OfferTitle.Max, { message: 'Offer title length must be from 1 to 100 characters' })
+  @Length(OfferTitle.Min, OfferTitle.Max, { message: `Offer title length must be from ${OfferTitle.Min} to ${OfferTitle.Max} characters` })
   public offerTitle!: string;
 
   @IsString({message: 'Offer description is required'})
-  @Length(OfferDescription.Min, OfferDescription.Max, {message: 'Offer description length must be from 1 to 1024 characters'})
+  @Length(OfferDescription.Min, OfferDescription.Max, {message: `Offer description length must be from ${OfferDescription.Min} to ${OfferDescription.Max} characters`})
   public offerDescription!: string;
 
   @IsString({message: 'City is required'})
-  @IsMongoId({ message: 'City must by valid MongoDB ID'})
   public cityId!: string;
 
   @IsString({message: 'Preview image is required'})
@@ -31,8 +30,8 @@ export default class CreateOfferDTO {
 
   @IsNotEmpty({message: 'Offer image is required'})
   @IsArray({ message: 'Offer image list must be an Array of images' })
-  @ArrayMinSize(OfferImagesCount.Min, {message: 'offerImages must contain 6 items'})
-  @ArrayMaxSize(OfferImagesCount.Max, {message: 'offerImages must contain 6 items'})
+  @ArrayMinSize(OfferImagesCount.Min, {message: `offerImages must contain minimum ${OfferImagesCount.Min}items`})
+  @ArrayMaxSize(OfferImagesCount.Max, {message: `offerImages must contain maximum ${OfferImagesCount.Max} items`})
   public offerImg!: string[];
 
   @IsNotEmpty({message: '"Premium" flag is required'})
@@ -44,22 +43,21 @@ export default class CreateOfferDTO {
   public offerType!: RoomType;
 
   @IsInt({message: 'Rooms quantity must be an integer'})
-  @Min(RoomsCount.Min, {message: 'Minimum 1 room'})
-  @Max(RoomsCount.Max, {message: 'Maximum 8 rooms'})
+  @Min(RoomsCount.Min, {message: `Minimum ${RoomsCount.Min} room`})
+  @Max(RoomsCount.Max, {message: `Maximum ${RoomsCount.Max} rooms`})
   public roomsCount!: number;
 
   @IsInt({message: 'Guests quantity must be an integer'})
-  @Min(GuestsCount.Min, {message: 'Minimum 1 guest'})
-  @Max(GuestsCount.Max, {message: 'Maximum 10 guests'})
+  @Min(GuestsCount.Min, {message: `Minimum ${GuestsCount.Min}guest`})
+  @Max(GuestsCount.Max, {message: `Maximum ${GuestsCount.Max} guests`})
   public guestsCount!: number;
 
   @IsInt({message: 'Price value must be an integer'})
-  @Min(Price.Min, {message: 'Minimum price is 100'})
-  @Max(Price.Max, {message: 'Maximum price is 100 000'})
+  @Min(Price.Min, {message: `Minimum price is ${Price.Min}`})
+  @Max(Price.Max, {message: `Maximum price is ${Price.Max}`})
   public price!: number;
 
   @IsArray({ message: 'Features list must be an Array of images' })
-  @IsMongoId({each: true, message: 'Features must by valid MongoDB ID'})
   public features!: string[];
 
   public ownerId!: string;
