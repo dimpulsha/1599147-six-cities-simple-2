@@ -20,6 +20,9 @@ import OfferDBService from '../modules/offer/offer-service.js';
 import { CitiesDBServiceInterface } from '../modules/cities/cities-service.interface.js';
 import { CityModel } from '../modules/cities/cities.entity.js';
 import CitiesDBService from '../modules/cities/cities.service.js';
+import { CommentsDBServiceInterface } from '../modules/comments/comments-service.interface.js';
+import { CommentsModel } from '../modules/comments/comments.entity.js';
+import CommentsDBService from '../modules/comments/comments-service.js';
 
 import { Offer } from '../types/offer.type.js';
 
@@ -34,6 +37,7 @@ export default class ImportCommand implements CliCommandInterface{
   private offerService!: OfferDBServiceInterface;
   private databaseService!: MongoDBInterface;
   private cityService!: CitiesDBServiceInterface;
+  private commentsService!: CommentsDBServiceInterface;
   private logger!: LoggerInterface;
   private salt!: string;
 
@@ -42,10 +46,11 @@ export default class ImportCommand implements CliCommandInterface{
     this.onComplete = this.onComplete.bind(this);
 
     this.logger = new ConsoleLoggerService();
-    this.offerService = new OfferDBService(OfferModel, this.logger);
     this.featureService = new FeatureDBService(FeatureModel, this.logger,);
     this.userService = new UserDBService(this.logger, UserModel);
     this.cityService = new CitiesDBService(this.logger, CityModel);
+    this.commentsService = new CommentsDBService(this.logger, CommentsModel);
+    this.offerService = new OfferDBService(OfferModel, this.logger, this.commentsService ,this.cityService, this.featureService);
     this.databaseService = new MongoDBService(this.logger);
   }
 
@@ -61,7 +66,7 @@ export default class ImportCommand implements CliCommandInterface{
     for (const { name } of offer.features) {
       if (name) {
         const existFeature = await this.featureService.findOrCreate(name, { name });
-        features.push(existFeature.id);
+        features.push(existFeature.name);
       }
     }
 
@@ -69,7 +74,7 @@ export default class ImportCommand implements CliCommandInterface{
       ...offer,
       features,
       ownerId: user.id,
-      cityId: city.id,
+      cityId: city.name,
     });
   }
 

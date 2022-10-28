@@ -48,6 +48,14 @@
     "longitude": 6.776314
   }
  ],
+ "cityId":[
+  "Paris",
+  "Cologne",
+  "Brussels",
+  "Amsterdam",
+  "Hamburg",
+  "Dusseldorf"
+ ],
   "previewImg": [
     "offer-1-prew.img",
     "offer-2-prew.img",

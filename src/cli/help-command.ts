@@ -15,7 +15,7 @@ export default class HelpCommand implements CliCommandInterface {
             ${chalk.blue('--version:                   # выводит номер версии') }
             ${chalk.red('--help:                      # справка (этот текст). Команда по умолчанию')}
             ${chalk.green('--import <path> <DB-login> <DB-password> <DB-server> <DB-name> <salt-phrase>  :  # импортирует данные из TSV в базу данных. Пример: --import ./_temp/test-data.tsv admin admin 127.0.0.1 citiesDB 123456')}
-            ${chalk.yellow('--generator <n> <path> <url> # генерирует произвольное количество тестовых данных')}
+            ${chalk.yellow('--generate <n> <path> <url> # генерирует произвольное количество тестовых данных')}
 
         Вызов без параметров соответствует вызову: cli.js --help
 `);
