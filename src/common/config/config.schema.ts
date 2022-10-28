@@ -28,7 +28,7 @@ export const configSchema = convict<ConfigSchema>({
     doc: 'Port for incoming connections',
     format: 'port',
     env: 'REST_PORT',
-    default: null
+    default: 4390
   },
   DATABASE_URL: {
     doc: 'IP address for database connections',

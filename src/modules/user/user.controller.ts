@@ -18,6 +18,7 @@ import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.mid
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-object-id.middleware.js';
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { UnPrivateRouteMiddleware } from '../../common/middlewares/unprivate-route.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -39,6 +40,7 @@ export default class UserController extends Controller {
       method: HttpMethod.Post,
       handler: this.avatarUpload,
       middlewares: [
+        new PrivateRouteMiddleware,
         new ValidateObjectIdMiddleware('userId'),
         new UploadFileMiddleware(this.configService.getItem('UPLOAD_DIRECTORY'), 'avatar'),
       ] });
