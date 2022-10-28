@@ -51,7 +51,7 @@ Authorization: Bearer {Auth-token}
 ## Изменить предложение
   PATCH  http://localhost:4390/offer/{:offerId}  HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjFAZmlsbC5jb20iLCJpZCI6IjYzNWJiMGM5NzU1OWVjNjMwYjE4OTI2YSIsImlhdCI6MTY2Njk1MzQ0NywiZXhwIjoxNjY3MTI2MjQ3fQ.qm8gdDEuLldL3OROylMr9GZLDgw0bSIkVCNuow7mvag
+Authorization: Bearer {Auth-token}
 
 {
   "offerTitle": "Offer-300 Beautiful & luxurious studio at great location",
