@@ -21,15 +21,15 @@ export default class OfferDBService implements OfferDBServiceInterface {
   constructor(
     @inject(RESTAppComponent.OfferModel) private readonly offerModel: ModelType<OfferEntity>,
     @inject(RESTAppComponent.LoggerInterface) private readonly logger: LoggerInterface,
-    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly commentsService?: CommentsDBServiceInterface,
-    @inject(RESTAppComponent.CitiesDBServiceInterface) private readonly cityService?: CitiesDBServiceInterface,
-    @inject(RESTAppComponent.FeatureDBServiceInterface) private readonly featureService?:FeatureDBServiceInterface
+    @inject(RESTAppComponent.CommentsDBServiceInterface) private readonly commentsService: CommentsDBServiceInterface,
+    @inject(RESTAppComponent.CitiesDBServiceInterface) private readonly cityService: CitiesDBServiceInterface,
+    @inject(RESTAppComponent.FeatureDBServiceInterface) private readonly featureService:FeatureDBServiceInterface
   ) { }
 
 
   private async checkRelatedCity(cityName: string): Promise<string> {
-    const result = await this.cityService?.getIdByName(cityName);
-    console.log(result);
+
+    const result = await this.cityService.getIdByName(cityName);
 
     if (!result) {
       throw new HttpError(
